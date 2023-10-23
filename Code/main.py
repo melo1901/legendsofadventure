@@ -10,16 +10,20 @@ class Game:
         self.clock = pygame.time.Clock()
 
         self.level = Level()
-
+    
     def run(self):
         while True:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_ESCAPE:
+                        pygame.quit()
+                        sys.exit()
             
             self.screen.fill('black')
-            #self.level.run()
+            self.level.run()
             pygame.display.update()
             self.clock.tick(FPS)
 
