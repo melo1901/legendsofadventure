@@ -21,8 +21,8 @@ class Level:
                 if col == 'x':
                     Tile((x,y),[self.visible_sprites, self.obstacle_sprites])
                 if col == 'p':
-                    self.player = Player((x,y),[self.visible_sprites], self.obstacle_sprites)
-
+                    self.player = Player((2000,3000),[self.visible_sprites], self.obstacle_sprites)
+        #self.player = Player((2000,3000),[self.visible_sprites], self.obstacle_sprites)
     def run(self):
         self.visible_sprites.custom_draw(self.player)
         self.visible_sprites.update()
