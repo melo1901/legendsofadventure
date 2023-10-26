@@ -3,6 +3,7 @@ from settings import *
 from tile import Tile
 from player import Player
 from debug import debug_text
+from support import *
 
 class Level:
     def __init__(self):
@@ -14,15 +15,35 @@ class Level:
         self.create_map()
     
     def create_map(self):
-        for row_index,row in enumerate(WORLD_MAP):
-            for col_index, col in enumerate(row):
-                x = col_index * TITLESIZE
-                y = row_index * TITLESIZE
-                if col == 'x':
-                    Tile((x,y),[self.visible_sprites, self.obstacle_sprites])
-                if col == 'p':
-                    self.player = Player((2000,3000),[self.visible_sprites], self.obstacle_sprites)
-        #self.player = Player((2000,3000),[self.visible_sprites], self.obstacle_sprites)
+        layouts = {
+            'boundary': import_csv_layout('level/level_data/map_boundaries.csv'),
+            'elements': import_csv_layout('level/level_data/map_elements.csv')
+        }
+
+        graphics = {
+            'elements': import_folder('graphics/elements')
+        }
+
+        for style,layout in layouts.items():
+            for row_index,row in enumerate(layout):
+                for col_index, col in enumerate(row):
+                    if col != '-1':
+                        x = col_index * TILESIZE
+                        y = row_index * TILESIZE
+                        if style == 'boundary':
+                            Tile((x,y),[self.obstacle_sprites], 'invisible')
+                        # if style == 'elements':
+                        #     surf = graphics['elements'][int(col)]
+                        #     Tile((x,y), [self.visible_sprites, self.obstacle_sprites], 'object', surf)
+            #         if col == 'x':
+        #             Tile((x,y),[self.visible_sprites, self.obstacle_sprites])
+        #         if col == 'p':
+        #             self.player = Player((2000,3000),[self.visible_sprites], self.obstacle_sprites)
+        self.player = Player((2000,3000),[self.visible_sprites], self.obstacle_sprites)
+
+    
+    
+    
     def run(self):
         self.visible_sprites.custom_draw(self.player)
         self.visible_sprites.update()
