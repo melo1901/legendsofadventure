@@ -17,29 +17,32 @@ class Level:
     def create_map(self):
         layouts = {
             'boundary': import_csv_layout('level/level_data/map_boundaries.csv'),
-            'elements': import_csv_layout('level/level_data/map_elements.csv')
+            'desert_elements': import_csv_layout('level/level_data/map_desert_elements.csv'),
+            'forest_elements': import_csv_layout('level/level_data/map_forest_elements.csv'),
+            'swamp_elements': import_csv_layout('level/level_data/map_swamp_elements.csv'),
+            'tundra_elements': import_csv_layout('level/level_data/map_tundra_elements.csv')
         }
+        resource = create_graphics_dict()
 
-        graphics = {
-            'elements': import_folder('graphics/elements')
-        }
-
-        for style,layout in layouts.items():
-            for row_index,row in enumerate(layout):
+        for style, layout in layouts.items():
+            for row_index, row in enumerate(layout):
                 for col_index, col in enumerate(row):
                     if col != '-1':
                         x = col_index * TILESIZE
                         y = row_index * TILESIZE
                         if style == 'boundary':
-                            Tile((x,y),[self.obstacle_sprites], 'invisible')
-                        # if style == 'elements':
-                        #     surf = graphics['elements'][int(col)]
-                        #     Tile((x,y), [self.visible_sprites, self.obstacle_sprites], 'object', surf)
-            #         if col == 'x':
-        #             Tile((x,y),[self.visible_sprites, self.obstacle_sprites])
-        #         if col == 'p':
-        #             self.player = Player((2000,3000),[self.visible_sprites], self.obstacle_sprites)
-        self.player = Player((2000,3000),[self.visible_sprites], self.obstacle_sprites)
+                            Tile((x, y), [self.obstacle_sprites], 'invisible')
+                        else:
+                            if style in resource:
+                                resource_index = int(col)
+                                if 0 <= resource_index < len(resource[style]):
+                                    surf = resource[style][resource_index]
+                                    Tile((x, y), [self.visible_sprites, self.obstacle_sprites], 'object', surf)
+                        if col == 'x':
+                            Tile((x, y), [self.visible_sprites, self.obstacle_sprites])
+                    if col == 'p':
+                        self.player = Player((2000, 3000), [self.visible_sprites], self.obstacle_sprites)
+        self.player = Player((2000, 3000), [self.visible_sprites], self.obstacle_sprites)
 
     
     
