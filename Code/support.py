@@ -23,7 +23,11 @@ def import_folder(path):
 
 def create_graphics_dict():
     resources = [
-        'desert_ [resources].png', 'forest_ [resources].png', 'swamp_ [resources].png', 'taiga_ [resources].png', 'tundra_ [resources].png'
+        'desert_ [resources].png', 
+        'forest_ [resources].png', 
+        'swamp_ [resources].png', 
+        'taiga_ [resources].png', 
+        'tundra_ [resources].png'
     ]
     resource_tiles = {}
     tile_width, tile_height = 16, 16

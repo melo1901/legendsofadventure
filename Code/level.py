@@ -38,8 +38,6 @@ class Level:
                                 if 0 <= resource_index < len(resource[style]):
                                     surf = resource[style][resource_index]
                                     Tile((x, y), [self.visible_sprites, self.obstacle_sprites], 'object', surf)
-                        if col == 'x':
-                            Tile((x, y), [self.visible_sprites, self.obstacle_sprites])
                     if col == 'p':
                         self.player = Player((2000, 3000), [self.visible_sprites], self.obstacle_sprites)
         self.player = Player((2000, 3000), [self.visible_sprites], self.obstacle_sprites)
@@ -65,12 +63,6 @@ class YSortCameraGroup(pygame.sprite.Group):
         
         self.floor_rect = self.floor_surf.get_rect(topleft = (0,0))
         self.scaled_surf = pygame.transform.scale(self.floor_surf, (self.floor_rect.width * self.zoom_scale, self.floor_rect.height * self.zoom_scale))
-    def zoom_keyboard_control(self):
-        keys = pygame.key.get_pressed()
-        if keys[pygame.K_q]:
-            self.zoom_scale += 0.01
-        if keys[pygame.K_e]:
-            self.zoom_scale -= 0.01
 
     def custom_draw(self, player):
         self.offset.x = player.rect.centerx - self.half_width

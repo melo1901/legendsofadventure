@@ -7,7 +7,9 @@ class Player(pygame.sprite.Sprite):
         super().__init__(groups)
         self.image = pygame.image.load('graphics/character/main_char.png.').convert_alpha()
         self.rect = self.image.get_rect(topleft = pos)
-        self.hitbox = self.rect.inflate(0, -26)
+        self.mask = pygame.mask.from_surface(self.image)
+        self.mask_rect = self.mask.get_rect(topleft = pos)
+        self.hitbox = self.rect.inflate(-8, -26)
 
         self.direction = pygame.math.Vector2()
         self.speed = 5
@@ -47,6 +49,24 @@ class Player(pygame.sprite.Sprite):
                         self.hitbox.bottom = sprite.hitbox.top
                     if self.direction.y < 0: #kolizja z lewej
                         self.hitbox.top = sprite.hitbox.bottom
+
+    # def collision(self, direction):
+    #     if direction == "horizontal":
+    #         for sprite in self.obstacle_sprites:
+    #             if pygame.sprite.collide_mask(self, sprite):
+    #                 if self.direction.x > 0:  # kolizja z prawej
+    #                     self.hitbox.right = sprite.hitbox.left
+    #                 if self.direction.x < 0:  # kolizja z lewej
+    #                     self.hitbox.left = sprite.hitbox.right
+
+    #     if direction == "vertical":
+    #         for sprite in self.obstacle_sprites:
+    #             if pygame.sprite.collide_mask(self, sprite):
+    #                 if self.direction.y > 0:  # kolizja z dolu
+    #                     self.hitbox.bottom = sprite.hitbox.top
+    #                 if self.direction.y < 0:  # kolizja z gory
+    #                     self.hitbox.top = sprite.hitbox.bottom
+
 
     def move(self, speed):
         if self.direction.magnitude() != 0:

@@ -9,4 +9,6 @@ class Tile(pygame.sprite.Sprite):
         surface = pygame.transform.scale(surface, (TILESIZE, TILESIZE))
         self.image = surface
         self.rect = self.image.get_rect(topleft = pos)
-        self.hitbox = self.rect.inflate(0,-10)
+        self.mask = pygame.mask.from_surface(surface)
+        self.mask_rect = self.mask.get_rect(topleft = pos)
+        self.hitbox = self.rect.inflate(-10, -10)
