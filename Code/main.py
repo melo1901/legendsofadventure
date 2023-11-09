@@ -2,6 +2,7 @@ import pygame, sys
 from settings import *
 from level import Level
 
+
 class Game:
     def __init__(self) -> None:
         pygame.init()
@@ -10,7 +11,7 @@ class Game:
         self.clock = pygame.time.Clock()
 
         self.level = Level()
-    
+
     def run(self):
         while True:
             for event in pygame.event.get():
@@ -21,11 +22,12 @@ class Game:
                     if event.key == pygame.K_ESCAPE:
                         pygame.quit()
                         sys.exit()
-            
-            self.screen.fill('black')
+
+            self.screen.fill("black")
             self.level.run()
             pygame.display.update()
             self.clock.tick(FPS)
+
 
 if __name__ == "__main__":
     game = Game()

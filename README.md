@@ -8,7 +8,7 @@ Jesli jeszcze nie macie w global envie
 
 
 Jezeli pullujecie maina i widzicie, ze ktos dodal nowe moduly:
-    
+
     poetry install
 
 ### WAZNE! Robicie to w sciezce, gdzie jest pyproject.toml
