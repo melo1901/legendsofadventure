@@ -14,9 +14,15 @@ class Player(pygame.sprite.Sprite):
         self.hitbox = self.rect.inflate(-8, -26)
 
         self.direction = pygame.math.Vector2()
-        self.speed = 5
 
         self.obstacle_sprites = obstacle_sprites
+
+        #stats
+        self.stats = {'health' : 100, 'stamina': 75, 'attack': 10,'mana': 50, 'speed': 5}
+        self.health = self.stats['health']
+        self.stamina = self.stats['stamina']
+        self.exp = 150
+        self.speed = self.stats['speed']
 
     def input(self):
         keys = pygame.key.get_pressed()
