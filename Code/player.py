@@ -4,7 +4,7 @@ from settings import *
 
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, pos, groups, obstacle_sprites):
+    def __init__(self, pos, groups, obstacle_sprites, create_attack, destroy_attack):
         super().__init__(groups)
         self.image = pygame.image.load(
             "graphics/character/main_char.png"
@@ -24,6 +24,18 @@ class Player(pygame.sprite.Sprite):
         self.exp = 150
         self.speed = self.stats['speed']
 
+        self.attacking = False
+        self.attack_time = None
+        self.attack_cooldown = 400
+        self.create_attack = create_attack
+        self.destroy_attack = destroy_attack
+
+        self.weapon_index = 0
+        self.weapon = list(weapon_data.keys())[self.weapon_index]
+        self.can_switch_weapon = True
+        self.weapon_switch_time = None
+        self.switch_duration_cooldown = 200
+
     def input(self):
         keys = pygame.key.get_pressed()
 
@@ -41,6 +53,22 @@ class Player(pygame.sprite.Sprite):
         else:
             self.direction.x = 0
 
+        if keys[pygame.K_SPACE] and not self.attacking:
+            self.attacking = True
+            self.attack_time = pygame.time.get_ticks()
+            self.create_attack()
+
+        if keys[pygame.K_q] and self.can_switch_weapon:
+            self.can_switch_weapon = False
+            self.weapon_switch_time = pygame.time.get_ticks()
+            
+            if self.weapon_index < len(list(weapon_data.keys())) - 1:
+                self.weapon_index += 1
+            else:
+                self.weapon_index = 0
+                
+            self.weapon = list(weapon_data.keys())[self.weapon_index]
+
     def collision(self, direction, speed):
         future_rect = self.rect.copy()
         if direction == "horizontal":
@@ -55,7 +83,21 @@ class Player(pygame.sprite.Sprite):
                 return True
         return False
 
+    def cooldowns(self):
+        current_time = pygame.time.get_ticks()
+
+        if self.attacking:
+            if current_time - self.attack_time >= self.attack_cooldown:
+                self.attacking = False
+                self.destroy_attack()
+
+        if not self.can_switch_weapon:
+            if current_time - self.weapon_switch_time >= self.switch_duration_cooldown:
+                self.can_switch_weapon = True
+
     def move(self, speed):
+        if self.attacking:
+            return
         if self.direction.magnitude() != 0:
             self.direction = self.direction.normalize()
 
@@ -66,4 +108,5 @@ class Player(pygame.sprite.Sprite):
 
     def update(self):
         self.input()
+        self.cooldowns()
         self.move(self.speed)
