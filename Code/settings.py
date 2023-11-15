@@ -26,6 +26,6 @@ WORLD_MAP = [
 ]
 
 weapon_data = {
-	'sword': {'cooldown': 100, 'damage': 15,'graphic':'../graphics/weapons/sword/full.png'},
-	'axe': {'cooldown': 300, 'damage': 20, 'graphic':'../graphics/weapons/axe/full.png'}
+	'sword': {'cooldown': 100, 'damage': 15, 'graphic':'graphics/weapons/axe/full.png'},
+	'axe': {'cooldown': 300, 'damage': 20, 'graphic':'graphics/weapons/axe/full.png'}
 }
