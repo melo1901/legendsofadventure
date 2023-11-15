@@ -23,6 +23,7 @@ class Player(pygame.sprite.Sprite):
         self.stamina = self.stats['stamina']
         self.exp = 150
         self.speed = self.stats['speed']
+        self.money = 5
 
     def input(self):
         keys = pygame.key.get_pressed()

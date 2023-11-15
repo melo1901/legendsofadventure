@@ -12,7 +12,7 @@ UI_FONT = 'graphics/fonts/IMMORTAL.ttf'
 UI_FONT_SIZE = 18
 
 # colors
-UI_BG_COLOR = '#222222'
+UI_BG_COLOR = '#363b42'
 UI_BORDER_COLOR = '#111111'
 TEXT_COLOR = '#EEEEEE'
 
