@@ -27,6 +27,7 @@ class Player(pygame.sprite.Sprite):
         #stats
         self.stats = {'health' : 100, 'stamina': 75, 'attack': 10,'mana': 50, 'magic': 3, 'speed': 5}
         self.health = self.stats['health']
+        self.mana = self.stats['mana']
         self.stamina = self.stats['stamina']
         self.exp = 150
         self.speed = self.stats['speed']
@@ -187,9 +188,16 @@ class Player(pygame.sprite.Sprite):
         self.image = animation[int(self.frame_index)]
         # self.rect = self.image.get_rect(center = self.hitbox.center)
 
+    def energy_recovery(self):
+        if self.stamina < self.stats['stamina']:
+            self.stamina += 0.01
+        else:
+            self.stamina = self.stats['stamina']
+
     def update(self):
         self.input()
         self.cooldowns()
         self.get_status()
         self.animate()
         self.move(self.speed)
+        self.energy_recovery()

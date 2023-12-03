@@ -7,6 +7,7 @@ from debug import debug_text
 from support import *
 from ui import UI
 from particles import AnimationPlayer
+from magic import MagicPlayer
 
 
 class Level:
@@ -26,7 +27,7 @@ class Level:
 
         # particle
         self.animation_player = AnimationPlayer()
-
+        self.magic_player = MagicPlayer(self.animation_player)
         
 
     def create_map(self):
@@ -82,10 +83,25 @@ class Level:
     def create_attack(self):
         self.current_attack = Weapon(self.player, [self.visible_sprites])
 
+    def player_attack_logic(self):
+        if self.attack_sprites:
+            for attack_sprite in self.attack_sprites:
+                collision_sprites = pygame.sprite.spritecollide(attack_sprite, self.attackable_sprites, False)
+                if collision_sprites:
+                    for target_sprite in collision_sprites:
+                        if target_sprite.sprite_type == 'grass':
+                            pos = target_sprite.rect.center
+                            self.animation_player.create_grass_particles(pos, [self.visible_sprites])
+                            target_sprite.kill()
+                        else:
+                            target_sprite.get_damage(self.player, attack_sprite.sprite_type)
+
     def create_magic(self,style,strength,cost):
-        print(style)
-        print(strength)
-        print(cost)
+        if style == 'heal':
+            self.magic_player.heal(self.player,strength,cost,[self.visible_sprites])
+
+        if style == 'flame':
+            self.magic_player.flame(self.player,cost,[self.visible_sprites])
 
     def destroy_attack(self):
         if self.current_attack:
