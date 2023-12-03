@@ -12,6 +12,7 @@ class MagicPlayer:
             #player.mana -= cost
             if player.health >= player.stats['health']:
                 player.health = player.stats['health']
+            self.animation_player.create_particles('aura',player.rect.center,groups)
             self.animation_player.create_particles('heal',player.rect.center,groups)
 
     def flame(self,player,cost,groups):

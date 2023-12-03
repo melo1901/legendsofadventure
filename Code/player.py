@@ -52,6 +52,8 @@ class Player(pygame.sprite.Sprite):
         self.can_switch_magic = True
         self.magic_switch_time = None
 
+        self.magic_casted = False
+
     def import_player_assets(self):
         character_path = 'graphics/player/'
         self.animations = {'up': [], 'down': [], 'left': [], 'right': [], 'right_idle': [], 'left_idle': [], 'up_idle': [], 'down_idle': [], 'right_attack': [], 'left_attack': [], 'up_attack': [], 'down_attack': []}
@@ -89,8 +91,9 @@ class Player(pygame.sprite.Sprite):
 
 
         # magic input
-        if keys[pygame.K_LCTRL]:
+        if keys[pygame.K_LCTRL] and not self.magic_casted:
             self.attacking = True
+            self.magic_casted = True
             self.attack_time = pygame.time.get_ticks()
             style = list(magic_data.keys())[self.magic_index]
             strength = list(magic_data.values())[self.magic_index]['strength'] + self.stats['magic']
@@ -166,6 +169,9 @@ class Player(pygame.sprite.Sprite):
         if not self.can_switch_magic:
             if current_time - self.magic_switch_time >= self.switch_duration_cooldown:
                 self.can_switch_magic = True
+
+        if self.magic_casted and current_time - self.attack_time >= self.attack_cooldown:
+            self.magic_casted = False  # Zresetuj zmienną magic_casted
 
     def move(self, speed):
         if self.attacking:

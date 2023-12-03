@@ -7,7 +7,8 @@ class AnimationPlayer:
         self.frames = {
             # magic
             'flame' : import_folder('graphics/magic/flame/frames'),
-            'heal' : import_folder('graphics/magic/heal/frames')
+            'heal' : import_folder('graphics/magic/heal/frames'),
+            'aura' : import_folder('graphics/magic/aura/frames')
         }
 
     def reflect_images(self, frames):
