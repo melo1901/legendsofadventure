@@ -10,13 +10,14 @@ class Weapon(pygame.sprite.Sprite):
             (0, 1): 'down',
             (0, -1): 'up'
         }
-        direction = direction_mapping.get((player.direction.x, player.direction.y), 'full')
+        direction = direction_mapping.get((player.direction.x, player.direction.y), player.status.replace('_attack', '').replace('_idle', ''))
 
         full_path = f'./graphics/weapons/{player.weapon}/{direction}.png'
         self.image = pygame.image.load(full_path)
         self.image.set_colorkey((255, 255, 255))
         self.image.convert_alpha()
-        
+
+
         if direction == 'right':
             self.rect = self.image.get_rect(midleft = player.rect.midright + pygame.math.Vector2(0,16))
         elif direction == 'left': 
@@ -25,4 +26,3 @@ class Weapon(pygame.sprite.Sprite):
             self.rect = self.image.get_rect(midtop = player.rect.midbottom + pygame.math.Vector2(-10,0))
         else:
             self.rect = self.image.get_rect(midbottom = player.rect.midtop + pygame.math.Vector2(-10,0))
-
