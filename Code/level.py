@@ -6,6 +6,7 @@ from weapon import Weapon
 from debug import debug_text
 from support import *
 from ui import UI
+from particles import AnimationPlayer
 
 
 class Level:
@@ -22,6 +23,11 @@ class Level:
 
         # interface
         self.ui = UI()
+
+        # particle
+        self.animation_player = AnimationPlayer()
+
+        
 
     def create_map(self):
         layouts = {
