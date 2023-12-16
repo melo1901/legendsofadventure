@@ -79,11 +79,13 @@ class Enemy(Entity):
             self.frame_index = 0
 
         self.image = animation[int(self.frame_index)]
-        self.rect = self.image.get_rect(center = self.hitbox.center)
+        #self.rect = self.image.get_rect(center = self.hitbox.center)
 
     def update(self):
         self.move(self.speed)
         self.animate()
+        self.rect.x += self.direction.x * self.speed
+        self.rect.y += self.direction.y * self.speed
 
     def enemy_update(self, player):
         self.get_status(player)

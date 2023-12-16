@@ -62,7 +62,7 @@ class Level:
                             elif col == '38': monster_name = 'ghost'
                             elif col == '41': monster_name = 'bee'
                             else: monster_name = 'bee'
-                            Enemy(monster_name,(x,y),[self.visible_sprites],self.obstacle_sprites)
+                            Enemy(monster_name,(2000,3000),[self.visible_sprites],self.obstacle_sprites)
 
                         else:
                             if style in resource:
