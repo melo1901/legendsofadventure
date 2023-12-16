@@ -8,7 +8,7 @@ from support import *
 from ui import UI
 from particles import AnimationPlayer
 from magic import MagicPlayer
-
+from enemy import Enemy
 
 class Level:
     def __init__(self):
@@ -45,6 +45,7 @@ class Level:
             "tundra_elements": import_csv_layout(
                 "level/level_data/map_tundra_elements.csv"
             ),
+            'entities': import_csv_layout("level/level_data/map_tundra_elements.csv")
         }
         resource = create_graphics_dict()
 
@@ -56,6 +57,13 @@ class Level:
                         y = row_index * TILESIZE
                         if style == "boundary":
                             Tile((x, y), [self.obstacle_sprites], "invisible")
+                        if style == 'entities':
+                            if col == '68': monster_name = 'fire'       
+                            elif col == '38': monster_name = 'ghost'
+                            elif col == '41': monster_name = 'bee'
+                            else: monster_name = 'bee'
+                            Enemy(monster_name,(x,y),[self.visible_sprites],self.obstacle_sprites)
+
                         else:
                             if style in resource:
                                 resource_index = int(col)
@@ -67,6 +75,8 @@ class Level:
                                         "object",
                                         surf,
                                     )
+                        
+
                     if col == "p":
                         self.player = Player(
                             (2000, 3000), [self.visible_sprites], self.obstacle_sprites, self.create_attack, self.destroy_attack,self.create_magic
@@ -111,6 +121,7 @@ class Level:
     def run(self):
         self.visible_sprites.custom_draw(self.player)
         self.visible_sprites.update()
+        self.visible_sprites.enemy_update(self.player)
         self.ui.display(self.player)
 
 
@@ -145,3 +156,8 @@ class YSortCameraGroup(pygame.sprite.Group):
         for sprite in sorted(self.sprites(), key=lambda sprite: sprite.rect.centery):
             offset_pos = sprite.rect.topleft - self.offset
             self.display_surface.blit(sprite.image, offset_pos)
+
+    def enemy_update(self, player):
+        enemy_sprites = [sprite for sprite in self.sprites() if hasattr(sprite, 'sprite_type') and sprite.sprite_type == 'enemy']
+        for enemy in enemy_sprites:
+            enemy.enemy_update(player)

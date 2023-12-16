@@ -34,3 +34,10 @@ magic_data = {
     'flame': {'strength' : 5, 'cost': 20, 'graphic' : 'graphics/magic/flame/fire.png'},
 	'heal': {'strength' : 20, 'cost': 10, 'graphic' : 'graphics/magic/heal/heal.png'}
 }
+
+#enemy
+monster_data = {
+    'fire' : {'health': 100, 'exp': 100, 'damage': 20, 'attack_type': 'flame', 'speed': 3, 'resistance': 3, 'attack_radius': 80, 'notice_radius': 360},
+    'ghost' : {'health': 100, 'exp': 100, 'damage': 20, 'attack_type': 'flame', 'speed': 3, 'resistance': 3, 'attack_radius': 80, 'notice_radius': 360},
+    'bee' : {'health': 100, 'exp': 100, 'damage': 20, 'attack_type': 'flame', 'speed': 3, 'resistance': 3, 'attack_radius': 80, 'notice_radius': 360}
+}

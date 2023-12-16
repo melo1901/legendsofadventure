@@ -2,9 +2,10 @@ import pygame
 from pygame.sprite import Group
 from settings import *
 from support import import_folder
+from entity import Entity
 
 
-class Player(pygame.sprite.Sprite):
+class Player(Entity):
     def __init__(self, pos, groups, obstacle_sprites, create_attack, destroy_attack, create_magic):
         super().__init__(groups)
         self.image = pygame.image.load(
@@ -17,10 +18,9 @@ class Player(pygame.sprite.Sprite):
         #graphics setup
         self.import_player_assets()
         self.status = 'down'
-        self.frame_index = 0
-        self.animation_speed = 0.15
 
-        self.direction = pygame.math.Vector2()
+
+
 
         self.obstacle_sprites = obstacle_sprites
 
