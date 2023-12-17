@@ -45,7 +45,7 @@ class Level:
             "tundra_elements": import_csv_layout(
                 "level/level_data/map_tundra_elements.csv"
             ),
-            'entities': import_csv_layout("level/level_data/map_tundra_elements.csv")
+            'entities': import_csv_layout("level/level_data/map_enemiesmodified.csv")
         }
         resource = create_graphics_dict()
 
@@ -58,11 +58,18 @@ class Level:
                         if style == "boundary":
                             Tile((x, y), [self.obstacle_sprites], "invisible")
                         if style == 'entities':
-                            if col == '68': monster_name = 'fire'       
-                            elif col == '38': monster_name = 'ghost'
-                            elif col == '41': monster_name = 'bee'
-                            else: monster_name = 'bee'
-                            Enemy(monster_name,(2000,3000),[self.visible_sprites],self.obstacle_sprites)
+                            if col == '68': 
+                                monster_name = 'fire'
+                                Enemy(monster_name,(x,y),[self.visible_sprites],self.obstacle_sprites)   
+                            elif col == '38': 
+                                monster_name = 'ghost'
+                                Enemy(monster_name,(x,y),[self.visible_sprites],self.obstacle_sprites)
+                            elif col == '41': 
+                                monster_name = 'bee'
+                                Enemy(monster_name,(x,y),[self.visible_sprites],self.obstacle_sprites)
+                            elif col == '51': 
+                                monster_name = 'bee'
+                                Enemy(monster_name,(x,y),[self.visible_sprites],self.obstacle_sprites)
 
                         else:
                             if style in resource:
