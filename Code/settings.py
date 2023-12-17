@@ -37,7 +37,7 @@ magic_data = {
 
 #enemy
 monster_data = {
-    'fire' : {'health': 100, 'exp': 100, 'damage': 20, 'attack_type': 'flame', 'speed': 3, 'resistance': 3, 'attack_radius': 80, 'notice_radius': 360},
-    'ghost' : {'health': 100, 'exp': 100, 'damage': 20, 'attack_type': 'flame', 'speed': 3, 'resistance': 3, 'attack_radius': 80, 'notice_radius': 360},
-    'bee' : {'health': 100, 'exp': 100, 'damage': 20, 'attack_type': 'flame', 'speed': 3, 'resistance': 3, 'attack_radius': 80, 'notice_radius': 360}
+    'fire' : {'health': 300, 'exp': 100, 'damage': 20, 'attack_type': 'flame', 'speed': 3, 'resistance': 3, 'attack_radius': 80, 'notice_radius': 360},
+    'ghost' : {'health': 360, 'exp': 100, 'damage': 20, 'attack_type': 'flame', 'speed': 3, 'resistance': 3, 'attack_radius': 80, 'notice_radius': 360},
+    'bee' : {'health': 150, 'exp': 100, 'damage': 20, 'attack_type': 'flame', 'speed': 3, 'resistance': 3, 'attack_radius': 80, 'notice_radius': 360}
 }

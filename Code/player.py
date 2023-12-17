@@ -33,6 +33,10 @@ class Player(Entity):
         self.speed = self.stats['speed']
         self.money = 5
 
+        self.vulnerable = True
+        self.hit_time = None
+        self.invulnerability_duration = 200
+
         self.attacking = False
         self.attack_time = None
         self.attack_cooldown = 400
@@ -66,23 +70,24 @@ class Player(Entity):
     def input(self):
         keys = pygame.key.get_pressed()
 
-        if keys[pygame.K_w]:
-            self.direction.y = -1
-            self.status = 'up'
-        elif keys[pygame.K_s]:
-            self.direction.y = 1
-            self.status = 'down'
-        else:
-            self.direction.y = 0
+        if not self.attacking:
+            if keys[pygame.K_w]:
+                self.direction.y = -1
+                self.status = 'up'
+            elif keys[pygame.K_s]:
+                self.direction.y = 1
+                self.status = 'down'
+            else:
+                self.direction.y = 0
 
-        if keys[pygame.K_d]:
-            self.direction.x = 1
-            self.status = 'right'
-        elif keys[pygame.K_a]:
-            self.direction.x = -1
-            self.status = 'left'
-        else:
-            self.direction.x = 0
+            if keys[pygame.K_d]:
+                self.direction.x = 1
+                self.status = 'right'
+            elif keys[pygame.K_a]:
+                self.direction.x = -1
+                self.status = 'left'
+            else:
+                self.direction.x = 0
 
         if keys[pygame.K_SPACE] and not self.attacking:
             self.attacking = True
@@ -173,6 +178,10 @@ class Player(Entity):
         if self.magic_casted and current_time - self.attack_time >= self.attack_cooldown:
             self.magic_casted = False  # Zresetuj zmienną magic_casted
 
+        if not self.vulnerable:
+            if current_time - self.hit_time >= self.invulnerability_duration:
+                self.vulnerable = True
+
     def move(self, speed):
         if self.attacking:
             return
@@ -193,6 +202,15 @@ class Player(Entity):
 
         self.image = animation[int(self.frame_index)]
         # self.rect = self.image.get_rect(center = self.hitbox.center)
+
+        if not self.vulnerable:
+            alpha = self.wave_value()
+            self.image.set_alpha(alpha)
+        else:
+            self.image.set_alpha(255)
+
+    def get_full_weapon_damage(self):
+        return self.stats['attack'] + weapon_data[self.weapon]['damage']
 
     def energy_recovery(self):
         if self.stamina < self.stats['stamina']:
