@@ -157,6 +157,26 @@ class YSortCameraGroup(pygame.sprite.Group):
             offset_pos = sprite.rect.topleft - self.offset
             self.display_surface.blit(sprite.image, offset_pos)
 
+            if hasattr(sprite, 'monster_name'):
+                if (sprite.health != sprite.max_health):
+                    # Pasek zdrowia
+                    health_bar_length = 50
+                    health_bar_height = 7
+                    health_ratio = sprite.health / sprite.max_health
+                    filled_health = health_bar_length * health_ratio
+                    health_bar_color = (255, 0, 0)  # Zielony kolor paska zdrowia
+                    pygame.draw.rect(
+                        self.display_surface,
+                        health_bar_color,
+                        (offset_pos[0], offset_pos[1] - 25, filled_health, health_bar_height),
+                    )
+                    pygame.draw.rect(
+                        self.display_surface,
+                        (0, 0, 0),
+                        (offset_pos[0] + filled_health, offset_pos[1] - 25, health_bar_length - filled_health,
+                        health_bar_height),
+                    )
+
     def enemy_update(self, player):
         enemy_sprites = [sprite for sprite in self.sprites() if hasattr(sprite, 'sprite_type') and sprite.sprite_type == 'enemy']
         for enemy in enemy_sprites:
