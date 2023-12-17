@@ -49,6 +49,7 @@ class Player(Entity):
         #magic
         self.create_magic = create_magic
         self.magic_index = 1
+        self.magic_range = 3
         self.magic = list(magic_data.keys())[self.magic_index]
         self.can_switch_magic = True
         self.magic_switch_time = None
@@ -208,6 +209,9 @@ class Player(Entity):
 
     def get_full_weapon_damage(self):
         return self.stats['attack'] + weapon_data[self.weapon]['damage']
+    
+    # def get_full_magic_damage(self):
+    #     return magic_data[self.magic]['damage']
 
     def energy_recovery(self):
         if self.mana < self.stats['mana']:
