@@ -67,9 +67,6 @@ class Level:
                             elif col == '41': 
                                 monster_name = 'bee'
                                 Enemy(monster_name,(x,y),[self.visible_sprites],self.obstacle_sprites)
-                            elif col == '51': 
-                                monster_name = 'bee'
-                                Enemy(monster_name,(x,y),[self.visible_sprites],self.obstacle_sprites)
 
                         else:
                             if style in resource:
@@ -82,14 +79,12 @@ class Level:
                                         "object",
                                         surf,
                                     )
-                        
-
                     if col == "p":
                         self.player = Player(
-                            (2000, 3000), [self.visible_sprites], self.obstacle_sprites, self.create_attack, self.destroy_attack,self.create_magic
+                            (1374, 4187), [self.visible_sprites], self.obstacle_sprites, self.create_attack, self.destroy_attack,self.create_magic
                         )
         self.player = Player(
-            (2000, 3000), 
+            (1374, 4187), 
             [self.visible_sprites], 
             self.obstacle_sprites, 
             self.create_attack, 
