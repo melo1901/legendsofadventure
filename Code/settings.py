@@ -6,7 +6,7 @@ TILESIZE = 64
 # ui
 BAR_HEIGHT = 20
 HEALTH_BAR_WIDTH = 200
-STAMINA_BAR_SIZE = 140
+MANA_BAR_SIZE = 140
 ITEM_BOX_SIZE = 80
 UI_FONT = 'graphics/fonts/IMMORTAL.ttf'
 UI_FONT_SIZE = 18
@@ -18,7 +18,7 @@ TEXT_COLOR = '#EEEEEE'
 
 # ui colors
 HEALTH_COLOR = 'red'
-STAMINA_COLOR = 'green'
+MANA_COLOR = 'blue'
 UI_BORDER_COLOR_ACTIVE = 'gold'
 
 WORLD_MAP = [
@@ -37,7 +37,7 @@ magic_data = {
 
 #enemy
 monster_data = {
-    'fire' : {'health': 300, 'exp': 100, 'damage': 20, 'attack_type': 'flame', 'speed': 3, 'resistance': 3, 'attack_radius': 80, 'notice_radius': 360},
-    'ghost' : {'health': 360, 'exp': 100, 'damage': 20, 'attack_type': 'flame', 'speed': 3, 'resistance': 3, 'attack_radius': 80, 'notice_radius': 360},
-    'bee' : {'health': 150, 'exp': 100, 'damage': 20, 'attack_type': 'flame', 'speed': 3, 'resistance': 3, 'attack_radius': 80, 'notice_radius': 360}
+    'fire' : {'health': 300, 'exp': 100, 'damage': 20, 'attack_type': 'flame', 'speed': 3, 'resistance': 3, 'attack_radius': 80, 'notice_radius': 300},
+    'ghost' : {'health': 360, 'exp': 150, 'damage': 15, 'attack_type': 'flame', 'speed': 3, 'resistance': 3, 'attack_radius': 80, 'notice_radius': 360},
+    'bee' : {'health': 150, 'exp': 50, 'damage': 10, 'attack_type': 'flame', 'speed': 3, 'resistance': 3, 'attack_radius': 60, 'notice_radius': 200}
 }

@@ -18,14 +18,11 @@ class Player(Entity):
         #graphics setup
         self.import_player_assets()
         self.status = 'down'
-
-
-
-
+        
         self.obstacle_sprites = obstacle_sprites
 
         #stats
-        self.stats = {'health' : 100, 'stamina': 75, 'attack': 10,'mana': 50, 'magic': 3, 'speed': 5}
+        self.stats = {'health' : 100, 'stamina': 75, 'attack': 10,'mana': 75, 'magic': 3, 'speed': 5}
         self.health = self.stats['health']
         self.mana = self.stats['mana']
         self.stamina = self.stats['stamina']
@@ -51,7 +48,7 @@ class Player(Entity):
 
         #magic
         self.create_magic = create_magic
-        self.magic_index = 0
+        self.magic_index = 1
         self.magic = list(magic_data.keys())[self.magic_index]
         self.can_switch_magic = True
         self.magic_switch_time = None
@@ -213,10 +210,10 @@ class Player(Entity):
         return self.stats['attack'] + weapon_data[self.weapon]['damage']
 
     def energy_recovery(self):
-        if self.stamina < self.stats['stamina']:
-            self.stamina += 0.01
+        if self.mana < self.stats['mana']:
+            self.mana += 0.01
         else:
-            self.stamina = self.stats['stamina']
+            self.mana = self.stats['mana']
 
     def update(self):
         self.input()

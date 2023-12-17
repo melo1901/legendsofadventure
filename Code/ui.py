@@ -10,7 +10,7 @@ class UI:
 
         # bar setup
         self.health_bar_rect = pygame.Rect(10,10,HEALTH_BAR_WIDTH, BAR_HEIGHT)
-        self.stamina_bar_rect = pygame.Rect(10, 34, STAMINA_BAR_SIZE, BAR_HEIGHT)
+        self.stamina_bar_rect = pygame.Rect(10, 34, MANA_BAR_SIZE, BAR_HEIGHT)
 
         # convert weapon dict
         self.weapon_graphics = []
@@ -90,7 +90,7 @@ class UI:
 
     def display(self, player):
         self.show_bar(player.health, player.stats['health'], self.health_bar_rect, HEALTH_COLOR)
-        self.show_bar(player.stamina, player.stats['stamina'], self.stamina_bar_rect, STAMINA_COLOR)
+        self.show_bar(player.mana, player.stats['stamina'], self.stamina_bar_rect, MANA_COLOR)
 
         self.show_num(player.exp, player.money)
         

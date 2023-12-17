@@ -23,7 +23,7 @@ class Enemy(Entity):
         #stats
         self.monster_name = monster_name
         monster_info = monster_data[self.monster_name]
-        self.health = monster_info['health'] - 10
+        self.health = monster_info['health'] 
         self.max_health = monster_info['health']
         self.exp = monster_info['exp']
         self.speed = monster_info['speed']
@@ -120,9 +120,11 @@ class Enemy(Entity):
             self.vulnerable = False
             self.hit_time = pygame.time.get_ticks()
 
-    def check_death(self):
+    def check_death(self, player):
         if self.health <= 0:
             self.kill()
+            player.exp += self.exp
+            
 
     def hit_reaction(self):
         if not self.vulnerable:
@@ -135,10 +137,10 @@ class Enemy(Entity):
         self.animate()
         self.rect.x += self.direction.x * self.speed
         self.rect.y += self.direction.y * self.speed
-        self.cooldowns()
-        self.check_death()
+        self.cooldowns()   
 
     def enemy_update(self, player):
         self.get_status(player)
         self.actions(player)
+        self.check_death(player)
 

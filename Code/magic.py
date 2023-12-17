@@ -9,6 +9,7 @@ class MagicPlayer:
     def heal(self,player,strength,cost,groups):
         if player.mana >= cost:
             player.health += strength
+            player.mana -= cost
             #player.mana -= cost
             if player.health >= player.stats['health']:
                 player.health = player.stats['health']
@@ -17,7 +18,7 @@ class MagicPlayer:
 
     def flame(self,player,cost,groups):
         if player.mana >= cost:
-            #player.mana -= cost
+            player.mana -= cost
 
             if player.status.split('_')[0] == 'right': direction = pygame.math.Vector2(1,0)
             elif player.status.split('_')[0] == 'left': direction = pygame.math.Vector2(-1,0)
