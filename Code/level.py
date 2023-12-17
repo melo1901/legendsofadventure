@@ -60,12 +60,13 @@ class Level:
                         if style == 'entities':
                             if col == '68': 
                                 monster_name = 'fire'
-                                Enemy(monster_name,(x,y),[self.visible_sprites],self.obstacle_sprites)   
                             elif col == '38': 
                                 monster_name = 'ghost'
-                                Enemy(monster_name,(x,y),[self.visible_sprites],self.obstacle_sprites)
                             elif col == '41': 
                                 monster_name = 'bee'
+                            else:
+                                monster_name = None
+                            if monster_name:
                                 Enemy(monster_name,(x,y),[self.visible_sprites],self.obstacle_sprites)
 
                         else:
