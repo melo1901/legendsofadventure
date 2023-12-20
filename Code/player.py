@@ -23,9 +23,10 @@ class Player(Entity):
 
         #stats
         self.stats = {'health' : 100, 'stamina': 75, 'attack': 10,'mana': 75, 'magic': 3, 'speed': 5}
+        self.max_health = self.stats['health']
         self.health = self.stats['health']
+        self.target_health = self.stats['health']
         self.mana = self.stats['mana']
-        self.stamina = self.stats['stamina']
         self.exp = 150
         self.speed = self.stats['speed']
         self.money = 5

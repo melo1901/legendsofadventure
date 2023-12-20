@@ -9,11 +9,11 @@ class MagicPlayer:
 
     def heal(self,player,strength,cost,groups):
         if player.mana >= cost:
-            player.health += strength
+            player.target_health += strength
             player.mana -= cost
             #player.mana -= cost
-            if player.health >= player.stats['health']:
-                player.health = player.stats['health']
+            if player.target_health >= player.stats['health']:
+                player.target_health = player.stats['health']
             self.animation_player.create_particles('aura',player.rect.center,groups)
             self.animation_player.create_particles('heal',player.rect.center,groups)
 

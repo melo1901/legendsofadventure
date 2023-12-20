@@ -35,7 +35,7 @@ class Enemy(Entity):
 
         self.can_attack = True
         self.attack_time = None
-        self.attack_cooldown = 400
+        self.attack_cooldown = 700
         self.damage_player = damage_player
 
         self.vulnerable = True

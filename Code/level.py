@@ -133,17 +133,18 @@ class Level:
 
     def damage_player(self, damage, attack_type):
         if self.player.vulnerable:
-            if self.player.health >= damage:
-                self.player.health -= damage
+            if self.player.target_health >= damage:
+                self.player.target_health -= damage
             else:
-                self.player.health = 0
+                self.player.target_health = 0
             self.player.vulnerable = False
             self.player.hit_time = pygame.time.get_ticks()
 
     def run(self):
+        self.visible_sprites.enemy_update(self.player)
         self.visible_sprites.custom_draw(self.player)
         self.visible_sprites.update()
-        self.visible_sprites.enemy_update(self.player)
+        
         self.player_attack_logic()
         self.ui.display(self.player)
 
