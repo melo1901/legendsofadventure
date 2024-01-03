@@ -9,10 +9,13 @@ from ui import UI
 from particles import AnimationPlayer
 from magic import MagicPlayer
 from enemy import Enemy
+from upgrade import Upgrade
 
 class Level:
     def __init__(self):
         self.display_surface = pygame.display.get_surface()
+
+        self.game_paused = False
 
         self.visible_sprites = YSortCameraGroup()
         self.obstacle_sprites = pygame.sprite.Group()
@@ -26,12 +29,12 @@ class Level:
 
         # interface
         self.ui = UI()
+        self.upgrade = Upgrade(self.player)
 
         # particle
         self.animation_player = AnimationPlayer()
         self.magic_player = MagicPlayer(self.animation_player)
         
-
     def create_map(self):
         layouts = {
             "boundary": import_csv_layout("level/level_data/map_boundaries.csv"),
@@ -116,7 +119,7 @@ class Level:
             self.magic_player.heal(self.player,strength,cost,[self.visible_sprites])
 
         if style == 'flame':
-            self.magic_player.flame(self.player,cost,[self.visible_sprites])
+            self.magic_player.flame(self.player,cost,[self.visible_sprites,self.attack_sprites])
 
     def destroy_attack(self):
         if self.current_attack:
@@ -140,14 +143,22 @@ class Level:
             self.player.vulnerable = False
             self.player.hit_time = pygame.time.get_ticks()
 
-    def run(self):
-        self.visible_sprites.enemy_update(self.player)
-        self.visible_sprites.custom_draw(self.player)
-        self.visible_sprites.update()
-        
-        self.player_attack_logic()
-        self.ui.display(self.player)
+    def toggle_menu(self):
+        self.game_paused = not self.game_paused
 
+    def run(self):
+        self.visible_sprites.custom_draw(self.player)
+        self.ui.display(self.player)
+        
+        if self.game_paused:
+            self.upgrade.display()
+            # display upgrade menu
+        
+        else:
+            # run the game
+            self.visible_sprites.update()
+            self.visible_sprites.enemy_update(self.player)
+            self.player_attack_logic()
 
 class YSortCameraGroup(pygame.sprite.Group):
     def __init__(self):

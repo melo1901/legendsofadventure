@@ -111,8 +111,8 @@ class Enemy(Entity):
             self.direction = self.get_player_distance_direction(player)[1]
             if attack_type == 'weapon':
                 damage = player.get_full_weapon_damage()
-            # elif attack_type == 'magic':
-            #     damage = player.get_full_magic_damage()
+            elif attack_type == 'magic':
+                damage = player.get_full_magic_damage()
             else:
                 damage = 0
 

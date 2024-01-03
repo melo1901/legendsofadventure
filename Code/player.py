@@ -22,12 +22,17 @@ class Player(Entity):
         self.obstacle_sprites = obstacle_sprites
 
         #stats
-        self.stats = {'health' : 100, 'stamina': 75, 'attack': 10,'mana': 75, 'magic': 3, 'speed': 5}
+        self.stats = {'health' : 100, 'attack': 10,'mana': 75, 'magic': 10, 'speed': 5}
+        self.max_stats = {'health' : 400, 'attack': 40,'mana': 300, 'magic': 40, 'speed': 8}
+        self.upgrade_exp_cost = {'health' : 100, 'attack' : 100, 'mana' : 100, 'magic' : 100, 'speed' : 100}
+        self.upgrade_exp_value = {'health' : 100, 'attack' : 10, 'mana' : 75, 'magic' : 10, 'speed' : 1}
+        self.upgrade_gold_names = {'sword damage', 'axe damage', 'heal', 'flame damage', 'flame range'}
+        self.upgrade_gold_cost = {'sword' : 5, 'axe' : 5, 'heal' : 5, 'flame_damage' : 5, 'flame_range' : 10}
         self.max_health = self.stats['health']
         self.health = self.stats['health']
         self.target_health = self.stats['health']
         self.mana = self.stats['mana']
-        self.exp = 150
+        self.exp = 500
         self.speed = self.stats['speed']
         self.money = 5
 
@@ -41,20 +46,23 @@ class Player(Entity):
         self.create_attack = create_attack
         self.destroy_attack = destroy_attack
 
+        # weapon
         self.weapon_index = 0
         self.weapon = list(weapon_data.keys())[self.weapon_index]
         self.can_switch_weapon = True
         self.weapon_switch_time = None
         self.switch_duration_cooldown = 200
 
-        #magic
+        # magic
         self.create_magic = create_magic
         self.magic_index = 1
         self.magic_range = 3
+        self.max_magic_range = 6
+        self.magic_regen = 0.02
+        self.max_magic_regen = 0.05
         self.magic = list(magic_data.keys())[self.magic_index]
         self.can_switch_magic = True
         self.magic_switch_time = None
-
         self.magic_casted = False
 
     def import_player_assets(self):
@@ -65,7 +73,6 @@ class Player(Entity):
             full_path = character_path + animation
             self.animations[animation] = import_folder(full_path)
     
-
     def input(self):
         keys = pygame.key.get_pressed()
 
@@ -125,7 +132,6 @@ class Player(Entity):
                 self.magic_index = 0
                 
             self.magic = list(magic_data.keys())[self.magic_index]
-
 
     def get_status(self):
         if self.direction.x == 0 and self.direction.y == 0:
@@ -211,12 +217,21 @@ class Player(Entity):
     def get_full_weapon_damage(self):
         return self.stats['attack'] + weapon_data[self.weapon]['damage']
     
-    # def get_full_magic_damage(self):
-    #     return magic_data[self.magic]['damage']
+    def get_full_magic_damage(self):
+        return magic_data[self.magic]['damage'] + self.stats['magic']
+
+    def get_value_by_index(self,index):
+        return list(self.stats.values())[index]
+
+    def get_exp_cost_by_index(self,index):
+        return list(self.upgrade_exp_cost.values())[index]
+    
+    def get_gold_cost_by_index(self,index):
+        pass
 
     def energy_recovery(self):
         if self.mana < self.stats['mana']:
-            self.mana += 0.01
+            self.mana += self.magic_regen
         else:
             self.mana = self.stats['mana']
 
