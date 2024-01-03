@@ -9,13 +9,14 @@ from ui import UI
 from particles import AnimationPlayer
 from magic import MagicPlayer
 from enemy import Enemy
-from upgrade import Upgrade
+from upgrade import Upgrade, Shop
 
 class Level:
     def __init__(self):
         self.display_surface = pygame.display.get_surface()
 
         self.game_paused = False
+        self.game_shop_paused = False
 
         self.visible_sprites = YSortCameraGroup()
         self.obstacle_sprites = pygame.sprite.Group()
@@ -30,6 +31,7 @@ class Level:
         # interface
         self.ui = UI()
         self.upgrade = Upgrade(self.player)
+        self.shop = Shop(self.player)
 
         # particle
         self.animation_player = AnimationPlayer()
@@ -145,6 +147,9 @@ class Level:
 
     def toggle_menu(self):
         self.game_paused = not self.game_paused
+    
+    def toggle_shop(self):
+        self.game_shop_paused = not self.game_shop_paused
 
     def run(self):
         self.visible_sprites.custom_draw(self.player)
@@ -153,6 +158,9 @@ class Level:
         if self.game_paused:
             self.upgrade.display()
             # display upgrade menu
+
+        if self.game_shop_paused:
+            self.shop.display()
         
         else:
             # run the game

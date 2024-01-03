@@ -24,6 +24,8 @@ class Game:
                         sys.exit()
                     if event.key == pygame.K_m:
                         self.level.toggle_menu()
+                    if event.key == pygame.K_u:
+                        self.level.toggle_shop()
 
             self.screen.fill("black")
             self.level.run()

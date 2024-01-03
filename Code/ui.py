@@ -75,7 +75,7 @@ class UI:
         pygame.draw.rect(self.display_surface, UI_BORDER_COLOR, bg_rect, 3)
 
 
-    def show_num(self, exp, money):
+    def show_num(self, exp, gold):
         #exp values
         
         text_surf = self.font.render((str(int(exp)) + " XP"),False,TEXT_COLOR)        
@@ -91,7 +91,7 @@ class UI:
 
         # money values
 
-        text_surf = self.font.render((str(int(money)) + " $"), False, TEXT_COLOR)
+        text_surf = self.font.render((str(int(gold)) + " $"), False, TEXT_COLOR)
         y = self.display_surface.get_size()[1] - 20
         text_rect = text_surf.get_rect(bottomright=(x, y))
         
@@ -125,7 +125,7 @@ class UI:
         self.show_tmp_bar(player, self.health_bar_rect, HEALTH_COLOR)
         self.show_bar(player.mana, player.stats['mana'], self.stamina_bar_rect, MANA_COLOR)
 
-        self.show_num(player.exp, player.money)
+        self.show_num(player.exp, player.gold)
         
         self.weapon_overlay(player.weapon_index)
         self.magic_overlay(player.magic_index)
