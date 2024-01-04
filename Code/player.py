@@ -25,11 +25,11 @@ class Player(Entity):
         self.stats = {'health' : 100, 'attack': 10,'mana': 75, 'magic': 10, 'speed': 5}
         self.max_stats = {'health' : 400, 'attack': 40,'mana': 300, 'magic': 40, 'speed': 8}
         self.upgrade_exp_cost = {'health' : 100, 'attack' : 100, 'mana' : 100, 'magic' : 100, 'speed' : 100}
-        self.upgrade_exp_value = {'health' : 100, 'attack' : 10, 'mana' : 75, 'magic' : 10, 'speed' : 1}
+        self.upgrade_exp_value = {'health' : 50, 'attack' : 10, 'mana' : 75, 'magic' : 10, 'speed' : 1}
         self.upgrade_gold_names = {'sword damage' : 0, 'axe damage' : 0, 'heal' : 0, 'flame damage' : 0, 'flame range' : 0}
         self.upgrade_gold_cost = {'sword' : 5, 'axe' : 5, 'heal' : 5, 'flame_damage' : 5, 'flame_range' : 10}
         self.upgrade_gold_value = {'sword' : 5, 'axe' : 10, 'heal' : 10, 'flame_damage' : 10, 'flame_range' : 1}
-        self.upgrade_gold_max_values = {'sword' : 35, 'axe' : 60, 'heal' : 50, 'flame_damage' : 80, 'flame_range' : 7}
+        self.upgrade_gold_max_values = {'sword' : 45, 'axe' : 80, 'heal' : 70, 'flame_damage' : 100, 'flame_range' : 8}
         self.max_health = self.stats['health']
         self.health = self.stats['health']
         self.target_health = self.stats['health']

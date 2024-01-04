@@ -159,7 +159,7 @@ class Level:
             self.upgrade.display()
             # display upgrade menu
 
-        if self.game_shop_paused:
+        elif self.game_shop_paused:
             self.shop.display()
         
         else:

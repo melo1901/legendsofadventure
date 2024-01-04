@@ -42,6 +42,22 @@ magic_data = {
 	'heal': {'strength' : 10, 'cost': 10, 'damage' : 0, 'graphic' : 'graphics/magic/heal/heal.png'}
 }
 
+upgrade_exp_data = {
+    'health' : {'actual' : 0, 'max' : 6},
+    'attack' : {'actual' : 0, 'max' : 3},
+    'mana' : {'actual' : 0, 'max' : 3},
+    'magic' : {'actual' : 0, 'max' : 3},
+    'speed' : {'actual' : 0, 'max' : 3}
+}
+
+upgrade_gold_data = {
+    'sword' : {'actual' : 0, 'max' : 6},
+    'axe' : {'actual' : 0, 'max' : 6},
+    'heal' : {'actual' : 0, 'max' : 6},
+    'flame_damage' : {'actual' : 0, 'max' : 6},
+    'flame_range' : {'actual' : 0, 'max' : 3}
+}
+
 #enemy
 monster_data = {
     'fire' : {'health': 300, 'exp': 100, 'damage': 20, 'attack_type': 'flame', 'speed': 2, 'resistance': 3, 'attack_radius': 80, 'notice_radius': 300},

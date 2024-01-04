@@ -74,7 +74,6 @@ class UI:
         
         pygame.draw.rect(self.display_surface, UI_BORDER_COLOR, bg_rect, 3)
 
-
     def show_num(self, exp, gold):
         #exp values
         
