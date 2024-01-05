@@ -10,6 +10,7 @@ from particles import AnimationPlayer
 from magic import MagicPlayer
 from enemy import Enemy
 from upgrade import Upgrade, Shop
+from convert import generate_mobs_position
 
 
 class Level:
@@ -38,6 +39,7 @@ class Level:
         self.magic_player = MagicPlayer(self.animation_player)
 
     def create_map(self):
+        generate_mobs_position()
         layouts = {
             "boundary": import_csv_layout("level/level_data/map_boundaries.csv"),
             "desert_elements": import_csv_layout(
@@ -52,7 +54,7 @@ class Level:
             "tundra_elements": import_csv_layout(
                 "level/level_data/map_tundra_elements.csv"
             ),
-            "entities": import_csv_layout("level/level_data/map_enemiesmodified.csv"),
+            "entities": import_csv_layout("level/level_data/map_enemiesmodified2.csv"),
         }
         resource = create_graphics_dict()
 
