@@ -15,9 +15,9 @@ def modify_csv_if_not_mobs(input_path, output_path):
     df.to_csv(output_path, index=False)
 
 def replace_values(value):
-    replacement_rate = 0.04
+    replacement_rate = 0.02
     new_values = [68, 38, 41, 51]
-    if random.random() <= replacement_rate:
+    if value != -1 and random.random() <= replacement_rate:
         return random.choice(new_values)
     else:
         return value
