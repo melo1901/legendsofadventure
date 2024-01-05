@@ -78,9 +78,9 @@ class Player(Entity):
         self.health = self.stats["health"]
         self.target_health = self.stats["health"]
         self.mana = self.stats["mana"]
-        self.exp = 5000
+        self.exp = 0
         self.speed = self.stats["speed"]
-        self.gold = 500
+        self.gold = 0
 
         self.vulnerable = True
         self.hit_time = None

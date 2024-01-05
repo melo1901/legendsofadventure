@@ -27,6 +27,7 @@ class Enemy(Entity):
         self.health = monster_info["health"]
         self.max_health = monster_info["health"]
         self.exp = monster_info["exp"]
+        self.gold = monster_info["gold"]
         self.speed = monster_info["speed"]
         self.attack_damage = monster_info["damage"]
         self.resistance = monster_info["resistance"]
@@ -124,6 +125,7 @@ class Enemy(Entity):
         if self.health <= 0:
             self.kill()
             player.exp += self.exp
+            player.gold += self.gold
 
     def hit_reaction(self):
         if not self.vulnerable:

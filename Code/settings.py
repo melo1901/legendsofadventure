@@ -73,8 +73,9 @@ upgrade_gold_data = {
 # enemy
 monster_data = {
     "fire": {
-        "health": 300,
+        "health": 90,
         "exp": 100,
+        "gold": 2,
         "damage": 20,
         "attack_type": "flame",
         "speed": 2,
@@ -83,8 +84,9 @@ monster_data = {
         "notice_radius": 300,
     },
     "ghost": {
-        "health": 360,
+        "health": 100,
         "exp": 150,
+        "gold": 2,
         "damage": 15,
         "attack_type": "flame",
         "speed": 2,
@@ -93,8 +95,9 @@ monster_data = {
         "notice_radius": 360,
     },
     "bee": {
-        "health": 150,
+        "health": 70,
         "exp": 50,
+        "gold": 1,
         "damage": 10,
         "attack_type": "flame",
         "speed": 2,
