@@ -2,6 +2,7 @@ import pygame, sys
 from settings import *
 from level import Level
 
+
 class Menu:
     def __init__(self, options, type):
         self.font = pygame.font.Font(None, 50)
@@ -20,7 +21,7 @@ class Menu:
                 screen.blit(text, text_rect)
             elif self.type == "pause":
                 total_height = len(self.options) * 60
-                start_y = HEIGHT // 2 - total_height // 2 
+                start_y = HEIGHT // 2 - total_height // 2
                 text_rect = text.get_rect(center=(WIDTH // 2, start_y + i * 60))
                 pygame.draw.rect(screen, color, text_rect.inflate(20, 10))
                 screen.blit(text, text_rect)
@@ -43,15 +44,21 @@ class Game:
         self.clock = pygame.time.Clock()
 
         self.level = Level()
-        self.pause_menu = Menu(['Resume', 'Options', 'Help', 'Exit'], "pause")
-        self.title_menu = Menu(['Start', 'Options', 'Help', 'Quit'], "title")
-        self.state = 'title'
+        self.pause_menu = Menu(["Resume", "Options", "Help", "Exit"], "pause")
+        self.title_menu = Menu(["Start", "Options", "Help", "Quit"], "title")
+        self.state = "title"
 
     def draw_title(self):
         self.screen.fill("black")
         font = pygame.font.Font(None, 74)
         text = font.render("Legends of Adventure", 1, (255, 255, 255))
-        self.screen.blit(text, (WIDTH // 2 - text.get_width() // 2, HEIGHT // 2 - text.get_height() // 2 - 100))
+        self.screen.blit(
+            text,
+            (
+                WIDTH // 2 - text.get_width() // 2,
+                HEIGHT // 2 - text.get_height() // 2 - 100,
+            ),
+        )
 
         self.title_menu.draw(self.screen)
 
@@ -63,38 +70,38 @@ class Game:
                     sys.exit()
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
-                        if self.state == 'running':
-                            self.state = 'menu'
-                        elif self.state == 'menu':
-                            self.state = 'running'
-                    if self.state == 'title':
+                        if self.state == "running":
+                            self.state = "menu"
+                        elif self.state == "menu":
+                            self.state = "running"
+                    if self.state == "title":
                         result = self.title_menu.handle_input(event)
-                        if result == 'Start':
-                            self.state = 'running'
-                        elif result == 'Help':
+                        if result == "Start":
+                            self.state = "running"
+                        elif result == "Help":
                             print("Help")
-                        elif result == 'Quit':
+                        elif result == "Quit":
                             pygame.quit()
                             sys.exit()
-                    elif self.state == 'menu':
+                    elif self.state == "menu":
                         result = self.pause_menu.handle_input(event)
-                        if result == 'Resume':
-                            self.state = 'running'
-                        elif result == 'Help':
+                        if result == "Resume":
+                            self.state = "running"
+                        elif result == "Help":
                             print("Help")
-                        elif result == 'Exit':
-                            self.state = 'title'
-                    if event.key == pygame.K_m and self.state == 'running':
+                        elif result == "Exit":
+                            self.state = "title"
+                    if event.key == pygame.K_m and self.state == "running":
                         self.level.toggle_menu()
-                    if event.key == pygame.K_u and self.state == 'running':
+                    if event.key == pygame.K_u and self.state == "running":
                         self.level.toggle_shop()
 
-            if self.state == 'title':
+            if self.state == "title":
                 self.draw_title()
-            elif self.state == 'running':
+            elif self.state == "running":
                 self.screen.fill("black")
                 self.level.run()
-            elif self.state == 'menu':
+            elif self.state == "menu":
                 self.pause_menu.draw(self.screen)
 
             pygame.display.update()

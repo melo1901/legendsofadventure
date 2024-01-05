@@ -1,6 +1,7 @@
 import pygame
 from math import sin
 
+
 class Entity(pygame.sprite.Sprite):
     def __init__(self, groups):
         super().__init__(groups)
@@ -9,8 +10,8 @@ class Entity(pygame.sprite.Sprite):
         self.direction = pygame.math.Vector2()
 
     def move(self, speed):
-       pass 
-    
+        pass
+
     def collision(self, direction):
         pass
 

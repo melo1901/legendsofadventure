@@ -3,35 +3,36 @@ from settings import *
 from entity import Entity
 from support import *
 
+
 class Enemy(Entity):
     def __init__(self, monster_name, pos, groups, obstacle_sprites, damage_player):
-        #general setup
+        # general setup
         super().__init__(groups)
-        self.sprite_type = 'enemy'
+        self.sprite_type = "enemy"
 
-        #graphic setup
+        # graphic setup
         self.import_graphics(monster_name)
-        self.status = 'idle'
+        self.status = "idle"
         self.image = self.animations[self.status][self.frame_index]
-        self.rect = self.image.get_rect(topleft = pos)
+        self.rect = self.image.get_rect(topleft=pos)
 
-        #movement
-        self.rect = self.image.get_rect(topleft = pos)
-        self.hitbox = self.rect.inflate(0,-10)
+        # movement
+        self.rect = self.image.get_rect(topleft=pos)
+        self.hitbox = self.rect.inflate(0, -10)
         self.obstacle_sprites = obstacle_sprites
 
-        #stats
+        # stats
         self.monster_name = monster_name
         monster_info = monster_data[self.monster_name]
-        self.health = monster_info['health'] 
-        self.max_health = monster_info['health']
-        self.exp = monster_info['exp']
-        self.speed = monster_info['speed']
-        self.attack_damage = monster_info['damage']
-        self.resistance = monster_info['resistance']
-        self.attack_radius = monster_info['attack_radius']
-        self.notice_radius = monster_info['notice_radius']
-        self.attack_type = monster_info['attack_type']
+        self.health = monster_info["health"]
+        self.max_health = monster_info["health"]
+        self.exp = monster_info["exp"]
+        self.speed = monster_info["speed"]
+        self.attack_damage = monster_info["damage"]
+        self.resistance = monster_info["resistance"]
+        self.attack_radius = monster_info["attack_radius"]
+        self.notice_radius = monster_info["notice_radius"]
+        self.attack_type = monster_info["attack_type"]
 
         self.can_attack = True
         self.attack_time = None
@@ -43,8 +44,8 @@ class Enemy(Entity):
         self.invincible_duration = 200
 
     def import_graphics(self, name):
-        self.animations = {'idle':[], 'move':[], 'attack':[]}
-        main_path = f'graphics/monsters/{name}/'
+        self.animations = {"idle": [], "move": [], "attack": []}
+        main_path = f"graphics/monsters/{name}/"
         for animation in self.animations.keys():
             self.animations[animation] = import_folder(main_path + animation)
 
@@ -65,17 +66,16 @@ class Enemy(Entity):
         distance = self.get_player_distance_direction(player)[0]
 
         if distance <= self.attack_radius:
-            self.status = 'attack'
+            self.status = "attack"
         elif distance <= self.notice_radius:
-            self.status = 'move'
+            self.status = "move"
         else:
-            self.status = 'idle'
-
+            self.status = "idle"
 
     def actions(self, player):
-        if self.status == 'attack':
+        if self.status == "attack":
             self.damage_player(damage=self.attack_damage, attack_type=self.attack_type)
-        elif self.status == 'move':
+        elif self.status == "move":
             self.direction = self.get_player_distance_direction(player)[1]
         else:
             self.direction = pygame.math.Vector2()
@@ -88,7 +88,7 @@ class Enemy(Entity):
             self.frame_index = 0
 
         self.image = animation[int(self.frame_index)]
-        #self.rect = self.image.get_rect(center = self.hitbox.center)
+        # self.rect = self.image.get_rect(center = self.hitbox.center)
         if not self.vulnerable:
             alpha = self.wave_value()
             self.image.set_alpha(alpha)
@@ -109,9 +109,9 @@ class Enemy(Entity):
     def get_damage(self, player, attack_type):
         if self.vulnerable:
             self.direction = self.get_player_distance_direction(player)[1]
-            if attack_type == 'weapon':
+            if attack_type == "weapon":
                 damage = player.get_full_weapon_damage()
-            elif attack_type == 'magic':
+            elif attack_type == "magic":
                 damage = player.get_full_magic_damage()
             else:
                 damage = 0
@@ -124,12 +124,10 @@ class Enemy(Entity):
         if self.health <= 0:
             self.kill()
             player.exp += self.exp
-            
 
     def hit_reaction(self):
         if not self.vulnerable:
             self.direction *= -self.resistance
-
 
     def update(self):
         self.hit_reaction()
@@ -137,10 +135,9 @@ class Enemy(Entity):
         self.animate()
         self.rect.x += self.direction.x * self.speed
         self.rect.y += self.direction.y * self.speed
-        self.cooldowns()   
+        self.cooldowns()
 
     def enemy_update(self, player):
         self.get_status(player)
         self.actions(player)
         self.check_death(player)
-
