@@ -39,6 +39,10 @@ class Menu:
 class Game:
     def __init__(self) -> None:
         pygame.init()
+        pygame.mixer.init()
+        pygame.mixer.music.load("Resources/background.wav")
+        pygame.mixer.music.set_volume(0.1)
+        pygame.mixer.music.play(-1)
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
         pygame.display.set_caption("Legends of Adventure")
         self.clock = pygame.time.Clock()
@@ -99,7 +103,7 @@ class Game:
             if self.state == "title":
                 self.draw_title()
             elif self.state == "running":
-                self.screen.fill("black")
+                self.screen.fill(WATER_COLOR)
                 self.level.run()
             elif self.state == "menu":
                 self.pause_menu.draw(self.screen)
