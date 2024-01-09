@@ -106,4 +106,15 @@ monster_data = {
         "attack_radius": 80,
         "notice_radius": 250,
     },
+    "miniboss": {
+    "health": 400,
+    "exp": 300,
+    "gold": 10,
+    "damage": 25,
+    "attack_type": "flame",
+    "speed": 2.5,
+    "resistance": 0.5,
+    "attack_radius": 100,
+    "notice_radius": 400,
+    },
 }

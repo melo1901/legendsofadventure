@@ -7,7 +7,7 @@ input_if_not_mobs_csv_path = 'level/level_data/map_enemiesmodified2.csv'
 output_csv_path = 'level/level_data/map_enemiesmodified2.csv'
 
 def replace_values_if_not_mobs(value):
-    return value if value in [68, 38, 41, 51] else -1
+    return value if value in [68, 38, 41, 51, 99] else -1
 
 def modify_csv_if_not_mobs(input_path, output_path):
     df = pd.read_csv(input_path)
@@ -17,7 +17,7 @@ def modify_csv_if_not_mobs(input_path, output_path):
 def replace_values(value):
     replacement_rate = 0.02
     new_values = [68, 38, 41, 51]
-    if value != -1 and random.random() <= replacement_rate:
+    if (value != -1 or value != 99) and random.random() <= replacement_rate:
         return random.choice(new_values)
     else:
         return value

@@ -95,6 +95,7 @@ class Game:
                             print("Help")
                         elif result == "Exit":
                             self.state = "title"
+                            self.level = Level()
                     if event.key == pygame.K_m and self.state == "running":
                         self.level.toggle_menu()
                     if event.key == pygame.K_u and self.state == "running":

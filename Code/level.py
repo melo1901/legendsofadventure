@@ -9,6 +9,7 @@ from ui import UI
 from particles import AnimationPlayer
 from magic import MagicPlayer
 from enemy import Enemy
+from miniboss import MiniBoss
 from upgrade import Upgrade, Shop
 from convert import generate_mobs_position
 
@@ -73,9 +74,11 @@ class Level:
                                 monster_name = "ghost"
                             elif col == "41":
                                 monster_name = "bee"
+                            elif col == "99":
+                                monster_name = "miniboss"
                             else:
                                 monster_name = None
-                            if monster_name:
+                            if monster_name != "miniboss" and monster_name is not None:
                                 Enemy(
                                     monster_name,
                                     (x, y),
@@ -83,7 +86,14 @@ class Level:
                                     self.obstacle_sprites,
                                     self.damage_player,
                                 )
-
+                            elif monster_name == "miniboss":
+                                MiniBoss(
+                                    monster_name,
+                                    (x, y),
+                                    [self.visible_sprites, self.attackable_sprites],
+                                    self.obstacle_sprites,
+                                    self.damage_player,
+                                )               
                         else:
                             if style in resource:
                                 resource_index = int(col)
