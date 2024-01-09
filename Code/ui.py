@@ -43,6 +43,11 @@ class UI:
         pygame.draw.rect(self.display_surface, color, current_rect)
         pygame.draw.rect(self.display_surface, UI_BORDER_COLOR, bg_rect, 3)
 
+        text = f"{int(current)}/{int(max_am)}"
+        text_surface = self.font.render(text, True, (255, 255, 255))
+        text_rect = text_surface.get_rect(center=current_rect.center)
+        self.display_surface.blit(text_surface, text_rect)
+
     def show_tmp_bar(self, player, bg_rect, color):
         transition_width = 0
         transition_color = (
@@ -86,6 +91,10 @@ class UI:
         pygame.draw.rect(self.display_surface, color, current_rect)
 
         pygame.draw.rect(self.display_surface, UI_BORDER_COLOR, bg_rect, 3)
+        text = f"{int(player.health)}/{int(player.max_health)}"
+        text_surface = self.font.render(text, True, (255, 255, 255))
+        text_rect = text_surface.get_rect(center=bg_rect.center)
+        self.display_surface.blit(text_surface, text_rect)
 
     def show_num(self, exp, gold):
         # exp values
