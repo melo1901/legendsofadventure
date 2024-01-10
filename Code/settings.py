@@ -118,3 +118,13 @@ monster_data = {
     "notice_radius": 400,
     },
 }
+
+sounds = {
+    "player_hit": "Resources/player_hit.wav",
+}
+
+settings = {
+    "music_volume": 0.1,
+    "sound_volume": 0.05,
+    "fullscreen": False,
+}

@@ -39,6 +39,8 @@ class Level:
         self.animation_player = AnimationPlayer()
         self.magic_player = MagicPlayer(self.animation_player)
 
+        self.player_hit_sound = pygame.mixer.Sound(sounds["player_hit"])
+
     def create_map(self):
         generate_mobs_position()
         layouts = {
@@ -175,6 +177,7 @@ class Level:
         if self.player.vulnerable:
             if self.player.target_health >= damage:
                 self.player.target_health -= damage
+                pygame.mixer.Sound.play(self.player_hit_sound)
             else:
                 self.player.target_health = 0
             self.player.vulnerable = False
@@ -189,7 +192,8 @@ class Level:
     def run(self):
         self.visible_sprites.custom_draw(self.player)
         self.ui.display(self.player)
-
+        
+        self.player_hit_sound.set_volume(settings["sound_volume"])
         if self.game_paused:
             self.upgrade.display()
             # display upgrade menu

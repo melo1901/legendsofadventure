@@ -44,6 +44,8 @@ class Enemy(Entity):
         self.hit_time = None
         self.invincible_duration = 200
 
+        self.mob_hit_sound = pygame.mixer.Sound("Resources/mob_hit.wav")
+
     def import_graphics(self, name):
         self.animations = {"idle": [], "move": [], "attack": []}
         main_path = f"graphics/monsters/{name}/"
@@ -112,8 +114,10 @@ class Enemy(Entity):
             self.direction = self.get_player_distance_direction(player)[1]
             if attack_type == "weapon":
                 damage = player.get_full_weapon_damage()
+                self.mob_hit_sound.play()
             elif attack_type == "magic":
                 damage = player.get_full_magic_damage()
+                self.mob_hit_sound.play()
             else:
                 damage = 0
 
@@ -137,6 +141,7 @@ class Enemy(Entity):
         self.animate()
         self.rect.x += self.direction.x * self.speed
         self.rect.y += self.direction.y * self.speed
+        self.mob_hit_sound.set_volume(settings["sound_volume"])
         self.cooldowns()
 
     def enemy_update(self, player):
