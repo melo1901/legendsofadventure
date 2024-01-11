@@ -1,6 +1,5 @@
 import pygame
 
-
 class Weapon(pygame.sprite.Sprite):
     def __init__(self, player, groups) -> None:
         super().__init__(groups)

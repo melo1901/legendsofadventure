@@ -2,7 +2,6 @@ import pygame, sys
 from settings import *
 from level import Level
 
-
 class Menu:
     def __init__(self, options, type):
         self.font = pygame.font.Font(None, 50)
@@ -34,7 +33,6 @@ class Menu:
                 self.selected_option = (self.selected_option + 1) % len(self.options)
             elif event.key == pygame.K_RETURN:
                 return self.options[self.selected_option]
-
 
 class Game:
     def __init__(self) -> None:
@@ -111,7 +109,6 @@ class Game:
 
             pygame.display.update()
             self.clock.tick(FPS)
-
 
 if __name__ == "__main__":
     game = Game()

@@ -87,8 +87,9 @@ class Player(Entity):
         self.invulnerability_duration = 200
 
         self.attacking = False
-        self.attack_time = None
+        self.attack_time = 0
         self.attack_cooldown = 400
+        self.cooldown = 500
         self.create_attack = create_attack
         self.destroy_attack = destroy_attack
 
@@ -132,7 +133,7 @@ class Player(Entity):
 
     def input(self):
         keys = pygame.key.get_pressed()
-
+        current_time = pygame.time.get_ticks()
         if not self.attacking:
             if keys[pygame.K_w]:
                 self.direction.y = -1
@@ -152,7 +153,7 @@ class Player(Entity):
             else:
                 self.direction.x = 0
 
-        if keys[pygame.K_SPACE] and not self.attacking:
+        if keys[pygame.K_SPACE] and (current_time - self.attack_time >= self.attack_cooldown + weapon_data[self.weapon]["cooldown"] + self.cooldown) and not self.attacking:
             self.attacking = True
             self.attack_time = pygame.time.get_ticks()
             self.create_attack()
@@ -231,16 +232,12 @@ class Player(Entity):
                 current_time - self.attack_time
                 >= self.attack_cooldown + weapon_data[self.weapon]["cooldown"]
             ):
-                self.attacking = False
                 self.destroy_attack()
+                self.attacking = False
 
         if not self.can_switch_weapon:
             if current_time - self.weapon_switch_time >= self.switch_duration_cooldown:
                 self.can_switch_weapon = True
-
-        if not self.can_switch_magic:
-            if current_time - self.magic_switch_time >= self.switch_duration_cooldown:
-                self.can_switch_magic = True
 
         if (
             self.magic_casted
@@ -271,7 +268,6 @@ class Player(Entity):
             self.frame_index = 0
 
         self.image = animation[int(self.frame_index)]
-        # self.rect = self.image.get_rect(center = self.hitbox.center)
 
         if not self.vulnerable:
             alpha = self.wave_value()

@@ -37,7 +37,7 @@ weapon_data = {
         "damage": 15,
         "graphic": "graphics/weapons/sword/full.png",
     },
-    "axe": {"cooldown": 300, "damage": 20, "graphic": "graphics/weapons/axe/full.png"},
+    "axe": {"cooldown": 50, "damage": 20, "graphic": "graphics/weapons/axe/full.png"},
 }
 
 magic_data = {
