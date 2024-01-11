@@ -239,6 +239,10 @@ class Player(Entity):
             if current_time - self.weapon_switch_time >= self.switch_duration_cooldown:
                 self.can_switch_weapon = True
 
+        if not self.can_switch_magic:
+            if current_time - self.magic_switch_time >= self.switch_duration_cooldown:
+                self.can_switch_magic = True
+
         if (
             self.magic_casted
             and current_time - self.attack_time >= self.attack_cooldown
