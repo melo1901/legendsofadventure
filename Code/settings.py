@@ -33,23 +33,26 @@ WORLD_MAP = [["p"]]
 
 weapon_data = {
     "sword": {
-        "cooldown": 100,
+        "cooldown": 50,
         "damage": 15,
         "graphic": "graphics/weapons/sword/full.png",
     },
-    "axe": {"cooldown": 50, "damage": 20, "graphic": "graphics/weapons/axe/full.png"},
+    "axe": {
+        "cooldown": 200, 
+        "damage": 20, 
+        "graphic": "graphics/weapons/axe/full.png"},
 }
 
 magic_data = {
     "flame": {
         "strength": 5,
-        "cost": 20,
+        "cost": 60,
         "damage": 40,
         "graphic": "graphics/magic/flame/fire.png",
     },
     "heal": {
         "strength": 10,
-        "cost": 10,
+        "cost": 30,
         "damage": 0,
         "graphic": "graphics/magic/heal/heal.png",
     },

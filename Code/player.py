@@ -28,7 +28,7 @@ class Player(Entity):
         self.max_stats = {
             "health": 400,
             "attack": 40,
-            "mana": 300,
+            "mana": 150,
             "magic": 40,
             "speed": 8,
         }
@@ -42,7 +42,7 @@ class Player(Entity):
         self.upgrade_exp_value = {
             "health": 50,
             "attack": 10,
-            "mana": 75,
+            "mana": 25,
             "magic": 10,
             "speed": 1,
         }

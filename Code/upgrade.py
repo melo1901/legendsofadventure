@@ -298,7 +298,11 @@ class Item:
         )
 
         # cost
-        cost_surf = self.font.render(f"{int(cost)} EXP", False, color)
+        if amount == max_amount:
+            cost_str = "MAX"
+        else:
+            cost_str = f"{int(cost)} EXP"
+        cost_surf = self.font.render(cost_str, False, color)
         cost_rect = cost_surf.get_rect(
             midbottom=self.rect.midbottom - pygame.math.Vector2(0, 20)
         )
@@ -315,6 +319,7 @@ class Item:
                 and player.max_health < player.max_stats[upgrade_attrib]
             ):
                 player.max_health += player.upgrade_exp_value[upgrade_attrib]
+                player.target_health += player.upgrade_exp_value[upgrade_attrib]
                 player.exp -= player.upgrade_exp_cost[upgrade_attrib]
                 player.upgrade_exp_cost[upgrade_attrib] += 50
                 upgrade_exp_data[upgrade_attrib]["actual"] += 1
@@ -328,7 +333,7 @@ class Item:
                 and player.stats[upgrade_attrib] < player.max_stats[upgrade_attrib]
             ):
                 if upgrade_attrib == "mana":
-                    player.magic_regen += 0.07
+                    player.magic_regen += 0.03
                 player.stats[upgrade_attrib] += player.upgrade_exp_value[upgrade_attrib]
                 player.exp -= player.upgrade_exp_cost[upgrade_attrib]
                 player.upgrade_exp_cost[upgrade_attrib] += 50
