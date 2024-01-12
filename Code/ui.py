@@ -44,7 +44,7 @@ class UI:
         pygame.draw.rect(self.display_surface, UI_BORDER_COLOR, bg_rect, 3)
 
         text = f"{int(current)}/{int(max_am)}"
-        text_surface = self.font.render(text, True, (255, 255, 255))
+        text_surface = self.font.render(text, True, TEXT_COLOR)
         text_rect = text_surface.get_rect(center=bg_rect.center)
         self.display_surface.blit(text_surface, text_rect)
 
@@ -66,7 +66,6 @@ class UI:
             )
             transition_color = (0, 255, 0)
             player.health += 0.5
-            # Clamp health to the target_health to avoid overshooting
             player.health = min(player.health, player.target_health)
             ratio = player.health / player.max_health
         elif player.health > player.target_health:
@@ -77,9 +76,8 @@ class UI:
             )
             transition_color = (255, 255, 0)
             player.health -= 0.5
-            # Clamp health to the target_health to avoid overshooting
             player.health = max(player.health, player.target_health)
-            ratio = player.target_health / player.max_health  # Use target_health here
+            ratio = player.target_health / player.max_health  
 
         # Convert stat to pixel
         current_width = bg_rect.width * ratio
@@ -92,7 +90,7 @@ class UI:
 
         pygame.draw.rect(self.display_surface, UI_BORDER_COLOR, bg_rect, 3)
         text = f"{int(player.health)}/{int(player.max_health)}"
-        text_surface = self.font.render(text, True, (255, 255, 255))
+        text_surface = self.font.render(text, True, TEXT_COLOR)
         text_rect = text_surface.get_rect(center=bg_rect.center)
         self.display_surface.blit(text_surface, text_rect)
 
