@@ -1,11 +1,11 @@
 import pygame
 from enemy import Enemy
+from settings import UI_FONT, UI_FONT_SIZE
 
 class MiniBoss(Enemy):
     def __init__(self, name, pos, groups, obstacles, damage_func):
         super().__init__(name, pos, groups, obstacles, damage_func)
-        self.image = pygame.transform.scale(self.image, (self.image.get_width() * 2, self.image.get_height() * 2))
-        self.rect = self.image.get_rect(center=self.rect.center) 
+        self.hitbox = self.rect.inflate(-10, -10)
 
     def update(self):
         super().update()

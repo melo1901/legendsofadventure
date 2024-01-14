@@ -15,7 +15,7 @@ class Player(Entity):
         ).convert_alpha()
         self.rect = self.image.get_rect(topleft=pos)
         self.mask = pygame.mask.from_surface(self.image)
-        self.hitbox = self.rect.inflate(-8, -26)
+        self.hitbox = self.rect.inflate(-20, -26)
 
         # graphics setup
         self.import_player_assets()
