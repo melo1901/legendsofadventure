@@ -13,7 +13,7 @@ from miniboss import MiniBoss
 from upgrade import Upgrade, Shop
 from convert import generate_mobs_position
 
-
+# Inicjalizacja klasy odpowiedzialnej za generowanie poziomu gry
 class Level:
     def __init__(self):
         self.display_surface = pygame.display.get_surface()
@@ -24,9 +24,10 @@ class Level:
         self.visible_sprites = YSortCameraGroup()
         self.obstacle_sprites = pygame.sprite.Group()
 
-        self.current_attack = None
-        self.attack_sprites = pygame.sprite.Group()
-        self.attackable_sprites = pygame.sprite.Group()
+        # Grupy sprite'ów związane z walką
+        self.current_attack = None  # Aktualny atak gracza
+        self.attack_sprites = pygame.sprite.Group()  # Grupa sprite'ów związanych z atakiem
+        self.attackable_sprites = pygame.sprite.Group()  # Grupa sprite'ów, które można zaatakować
 
         self.create_map()
 
@@ -61,6 +62,7 @@ class Level:
         }
         resource = create_graphics_dict()
 
+        # Pętla przeglądająca elementy mapy i tworząca odpowiednie obiekty
         for style, layout in layouts.items():
             for row_index, row in enumerate(layout):
                 for col_index, col in enumerate(row):
@@ -69,6 +71,8 @@ class Level:
                         y = row_index * TILESIZE
                         if style == "boundary":
                             Tile((x, y), [self.obstacle_sprites], "invisible")
+                        
+                        # Tworzenie przeciówników (Enemy)
                         if style == "entities":
                             if col == "68":
                                 monster_name = "fire"
@@ -81,6 +85,7 @@ class Level:
                             else:
                                 monster_name = None
                             if monster_name != "miniboss" and monster_name is not None:
+                                # Stworzenie obiektu klasy Enemy
                                 Enemy(
                                     monster_name,
                                     (x, y),
@@ -89,6 +94,7 @@ class Level:
                                     self.damage_player,
                                 )
                             elif monster_name == "miniboss":
+                                # Stworzenie obiektu klasy MiniBoss
                                 MiniBoss(
                                     monster_name,
                                     (x, y),
@@ -125,30 +131,13 @@ class Level:
             self.create_magic,
         )
 
+    # Tworzenie ataku gracza na warstwie poziomu
     def create_attack(self):
+        # Przypisanie do zmiennej obiektu klasy Weapon
         self.current_attack = Weapon(
             self.player, [self.visible_sprites, self.attack_sprites]
         )
-
-    def player_attack_logic(self):
-        if self.attack_sprites:
-            for attack_sprite in self.attack_sprites:
-                collision_sprites = pygame.sprite.spritecollide(
-                    attack_sprite, self.attackable_sprites, False
-                )
-                if collision_sprites:
-                    for target_sprite in collision_sprites:
-                        if target_sprite.sprite_type == "grass":
-                            pos = target_sprite.rect.center
-                            self.animation_player.create_grass_particles(
-                                pos, [self.visible_sprites]
-                            )
-                            target_sprite.kill()
-                        else:
-                            target_sprite.get_damage(
-                                self.player, attack_sprite.sprite_type
-                            )
-
+    # Tworzenie zaklęcia (Leczenie lub Płomień)
     def create_magic(self, style, strength, cost):
         if style == "heal":
             self.magic_player.heal(self.player, strength, cost, [self.visible_sprites])
@@ -157,12 +146,13 @@ class Level:
             self.magic_player.flame(
                 self.player, cost, [self.visible_sprites, self.attack_sprites]
             )
-
+    # Niszczenie aktualnego ataku gracza
     def destroy_attack(self):
         if self.current_attack:
             self.current_attack.kill()
         self.current_attack = None
 
+    # Obsługa logiki ataku gracza - sprawdzanie kolizji z przeciwnikami
     def player_attack_logic(self):
         if self.attack_sprites:
             for attack_sprite in self.attack_sprites:
@@ -172,7 +162,7 @@ class Level:
                 if collision_sprites:
                     for target_sprite in collision_sprites:
                         target_sprite.get_damage(self.player, attack_sprite.sprite_type)
-
+    # Obsługa zdarzenia otrzymania obrażeń
     def damage_player(self, damage, attack_type):
         if self.player.vulnerable:
             if self.player.target_health >= damage:
@@ -268,7 +258,7 @@ class YSortCameraGroup(pygame.sprite.Group):
                             health_bar_height,
                         ),
                     )
-
+    # Aktuallizacja statusu przeciwnika
     def enemy_update(self, player):
         enemy_sprites = [
             sprite
