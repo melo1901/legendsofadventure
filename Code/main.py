@@ -8,29 +8,28 @@ class HelpScreen:
     def __init__(self):
         self.font = pygame.font.Font(None, 36)
         self.lines = [
-            "Witaj w",
-            "Legends of Adventure!",
-            "",
-            "Instrukcja gry:",
-            "",
-            "   - W : Idź w górę",
-            "   - A : Idź w lewo",
-            "   - S  : Idź w dół",
-            "   - D : Idź w prawo",
-            "   - Esc: Pauza/Menu",
-            "   - M: Otwórz sklep",
-            "   - U: Ulepsz magię",
-            "   - Q: Quit game",
-            "",
-            "Miłej zabawy!",
+            "WASD - Poruszanie się",
+            "Spacja - Uderzenie",
+            "Lewy CTRL - Użycie Magii",
+            "E - Zmiana zaklęcia",
+            "Q - Zmiana broni",
+            "ESC - Wyjście",
+            "U - Sklep",
+            "M - Ulepszanie Zaklęć" 
         ]
+        self.image = pygame.image.load("graphics/ui_elem/Instrukcja.png").convert_alpha()
 
     def draw(self, screen):
         # Ładowanie obrazu tła z przezroczystością (PNG z kanałem alfa)
         background_image = pygame.image.load("graphics/ui_elem/background.jpg").convert_alpha()
         screen.blit(background_image, (0, 0))
 
-        y = HEIGHT // 4
+        # Rysowanie obrazka nad tekstem
+        image_rect = self.image.get_rect(center=(WIDTH // 2, HEIGHT // 3))
+        screen.blit(self.image, image_rect)
+
+        # Rysowanie tekstu
+        y = HEIGHT // 1.7
         for line in self.lines:
             text = self.font.render(line, True, (255, 255, 255))
             text_rect = text.get_rect(center=(WIDTH // 2, y))
