@@ -14,7 +14,6 @@ class Enemy(Entity):
         self.import_graphics(monster_name)
         self.status = "idle"
         self.image = self.animations[self.status][self.frame_index]
-        self.rect = self.image.get_rect(topleft=pos)
 
         # movement
         self.rect = self.image.get_rect(topleft=pos)
@@ -53,7 +52,6 @@ class Enemy(Entity):
             self.animations[animation] = import_folder(main_path + animation)
 
     def get_player_distance_direction(self, player):
-
         enemy_vec = pygame.math.Vector2(self.rect.center)
         player_vec = pygame.math.Vector2(player.rect.center)
         distance = (player_vec - enemy_vec).magnitude()
@@ -63,7 +61,7 @@ class Enemy(Entity):
         else:
             direction = pygame.math.Vector2()
 
-        return (distance, direction)
+        return distance, direction
 
     def get_status(self, player):
         distance = self.get_player_distance_direction(player)[0]
@@ -135,16 +133,40 @@ class Enemy(Entity):
         if not self.vulnerable:
             self.direction *= -self.resistance
 
+    def collision(self, direction, speed):
+        future_rect = self.rect.copy()
+        if direction == "horizontal":
+            future_rect.x += self.direction.x * speed
+        else:
+            future_rect.y += self.direction.y * speed
+
+        for sprite in self.obstacle_sprites:
+            if future_rect.colliderect(sprite.rect):
+                return True
+        
+        return False
+
+    
+    def move(self, player):
+        max_distance = 500
+        distance, _ = self.get_player_distance_direction(player)
+
+        if distance <= max_distance:
+            if not self.collision("horizontal", self.speed):
+                self.rect.x += self.direction.x * self.speed
+
+            if not self.collision("vertical", self.speed):
+                self.rect.y += self.direction.y * self.speed
+
+
     def update(self):
         self.hit_reaction()
-        self.move(self.speed)
         self.animate()
-        self.rect.x += self.direction.x * self.speed
-        self.rect.y += self.direction.y * self.speed
-        self.mob_hit_sound.set_volume(settings["sound_volume"])
         self.cooldowns()
+        self.mob_hit_sound.set_volume(settings["sound_volume"])
 
     def enemy_update(self, player):
         self.get_status(player)
         self.actions(player)
         self.check_death(player)
+        self.move(player)
