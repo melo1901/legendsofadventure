@@ -1,17 +1,15 @@
-''' Główny plik wykonywalny gry "Legends of Adventure" 
+""" Główny plik wykonywalny gry "Legends of Adventure"
     Celem gry jest pokonanie głównego przeciwnika, znajdującego się w lewym, górnym rogu mapy.
     Aby mieć możliowść starcia z głównym bossem trzeba najpierwiej pokonać jego popleczników.
     Poplecznicy znajdują się w pozostałych rejonach mapy i znacząco różnią się od podstawowych przeciwników
     Walcz, nabieraj doświadczenia i rozwijaj swoje umiejętności, aby zostać prawdziwą Legendą Przygody!
-'''
+"""
 import pygame
 import sys
 from settings import *
 from level import Level
 import pygame_gui
 import time
-
-
 
 
 class HelpScreen:
@@ -37,7 +35,9 @@ class HelpScreen:
 
     def draw(self, screen):
         # Ładowanie obrazu tła z przezroczystością (PNG z kanałem alfa)
-        background_image = pygame.image.load("graphics/ui_elem/background.jpg").convert_alpha()
+        background_image = pygame.image.load(
+            "graphics/ui_elem/background.jpg"
+        ).convert_alpha()
         screen.blit(background_image, (0, 0))
 
         y = HEIGHT // 4
@@ -46,6 +46,7 @@ class HelpScreen:
             text_rect = text.get_rect(center=(WIDTH // 2, y))
             screen.blit(text, text_rect)
             y += 30
+
 
 # NOWE OPTIONS
 class OptionsScreen:
@@ -76,16 +77,20 @@ class OptionsScreen:
         self.clock = clock
 
         # Tworzenie suwaka do regulacji głośności muzyki
-        self.music_volume_slider = pygame_gui.elements.ui_horizontal_slider.UIHorizontalSlider(
-            pygame.Rect((WIDTH // 4, HEIGHT // 2), (300, 20)),
-            start_value=pygame.mixer.music.get_volume(),
-            value_range=(0, 1),
-            manager=self.manager
+        self.music_volume_slider = (
+            pygame_gui.elements.ui_horizontal_slider.UIHorizontalSlider(
+                pygame.Rect((WIDTH // 4, HEIGHT // 2), (300, 20)),
+                start_value=pygame.mixer.music.get_volume(),
+                value_range=(0, 1),
+                manager=self.manager,
+            )
         )
 
     def draw(self, screen):
         # Ładowanie obrazu tła z przezroczystością (PNG z kanałem alfa)
-        background_image = pygame.image.load("graphics/ui_elem/background.jpg").convert_alpha()
+        background_image = pygame.image.load(
+            "graphics/ui_elem/background.jpg"
+        ).convert_alpha()
         screen.blit(background_image, (0, 0))
 
         y = HEIGHT // 4
@@ -99,14 +104,19 @@ class OptionsScreen:
         self.manager.update(self.clock.tick(FPS) / 1000.0)
         self.manager.draw_ui(screen)
 
+
 class Menu:
     def __init__(self, options, type):
         self.font = pygame.font.Font(None, 50)
         self.options = options
         self.selected_option = 0
         self.type = type
-        self.background_image = pygame.image.load("graphics/ui_elem/background.jpg")  # Ścieżka do obrazu tła menu
-        self.logo_image = pygame.image.load("graphics/ui_elem/logo.png")  # Ścieżka do obrazu logo
+        self.background_image = pygame.image.load(
+            "graphics/ui_elem/background.jpg"
+        )  # Ścieżka do obrazu tła menu
+        self.logo_image = pygame.image.load(
+            "graphics/ui_elem/logo.png"
+        )  # Ścieżka do obrazu logo
 
     def draw(self, screen):
         # Rysowanie tła
@@ -149,6 +159,7 @@ class Menu:
             elif event.key == pygame.K_ESCAPE:
                 return "Escape"
 
+
 class Game:
     def __init__(self) -> None:
         pygame.init()
@@ -164,7 +175,9 @@ class Game:
         self.pause_menu = Menu(["Resume", "Help", "Exit"], "pause")
         self.title_menu = Menu(["Start", "Help", "Quit"], "title")
         self.state = "title"
-        self.options_screen = OptionsScreen(pygame_gui.UIManager((WIDTH, HEIGHT)), self.clock)
+        self.options_screen = OptionsScreen(
+            pygame_gui.UIManager((WIDTH, HEIGHT)), self.clock
+        )
         self.help_screen = HelpScreen()
         self.start_time = None
         self.end_time = None
@@ -191,7 +204,7 @@ class Game:
         self.pause_menu.draw(self.screen)
 
         # Rysowanie ekranu opcji
-        #self.options_screen.draw(self.screen)
+        # self.options_screen.draw(self.screen)
 
     def draw_help(self):
         # Rysowanie tła
@@ -209,7 +222,11 @@ class Game:
                     if event.key == pygame.K_ESCAPE:
                         if self.state == "running":
                             self.state = "menu"
-                        elif self.state == "menu" or self.state == "options" or self.state == "help":
+                        elif (
+                            self.state == "menu"
+                            or self.state == "options"
+                            or self.state == "help"
+                        ):
                             self.state = self.previous_state
                     if self.state == "title":
                         result = self.title_menu.handle_input(event)
@@ -265,20 +282,30 @@ class Game:
                     x = (WIDTH - text_width) / 2
                     y = (HEIGHT - text_height) / 2
 
-                    self.draw_text_with_outline(time_text, self.font, (255, 255, 255), (0, 0, 0), x, y - 25)
-                    self.draw_text_with_outline(instruction_text, self.font, (255, 255, 255), (0, 0, 0), x, y + 25)
+                    self.draw_text_with_outline(
+                        time_text, self.font, (255, 255, 255), (0, 0, 0), x, y - 25
+                    )
+                    self.draw_text_with_outline(
+                        instruction_text,
+                        self.font,
+                        (255, 255, 255),
+                        (0, 0, 0),
+                        x,
+                        y + 25,
+                    )
 
                     pygame.display.update()
                 elif global_settings.player_dead == True:
                     self.state = "you_died"
                     font = pygame.font.Font(UPGRADE_UI_FONT, 50)
                     death_text = font.render(f"YOU DIED", True, (255, 0, 0))
-                    continue_text = self. font.render(f"Press Enter to continue", True, (255, 255, 255))
+                    continue_text = self.font.render(
+                        f"Press Enter to continue", True, (255, 255, 255)
+                    )
                     text_width, text_height = death_text.get_size()
 
                     x = (WIDTH - text_width) / 2
                     y = (HEIGHT - text_height) / 3
-                    
 
                     self.screen.blit(death_text, (x, y))
                     self.screen.blit(continue_text, (x, y + 100))
@@ -301,12 +328,17 @@ class Game:
                     self.state = "title"
                     global_settings.end_game = False
                     global_settings.player_dead = False
-            
-            if global_settings.miniboss_kill_count == 2 and global_settings.boss_spawn_message == False:
+
+            if (
+                global_settings.miniboss_kill_count == 2
+                and global_settings.boss_spawn_message == False
+            ):
                 if self.boss_spawn_message_time == None:
                     self.boss_spawn_message_time = time.time()
                 if time.time() - self.boss_spawn_message_time <= 3:
-                    boss_spawn_text = self.font.render("Boss is coming!", True, (255, 0, 0))
+                    boss_spawn_text = self.font.render(
+                        "Boss is coming!", True, (255, 0, 0)
+                    )
                     text_width, text_height = boss_spawn_text.get_size()
 
                     x = (WIDTH - text_width) / 2
@@ -317,6 +349,7 @@ class Game:
             print(self.state)
             pygame.display.update()
             self.clock.tick(FPS)
+
 
 if __name__ == "__main__":
     game = Game()

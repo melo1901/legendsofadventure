@@ -143,10 +143,9 @@ class Enemy(Entity):
         for sprite in self.obstacle_sprites:
             if future_rect.colliderect(sprite.rect):
                 return True
-        
+
         return False
 
-    
     def move(self, player):
         max_distance = 500
         distance, _ = self.get_player_distance_direction(player)
@@ -157,7 +156,6 @@ class Enemy(Entity):
 
             if not self.collision("vertical", self.speed):
                 self.rect.y += self.direction.y * self.speed
-
 
     def update(self):
         self.animate()

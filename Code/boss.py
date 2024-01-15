@@ -1,6 +1,7 @@
 from enemy import Enemy
 from settings import global_settings, settings
 
+
 class Boss(Enemy):
     def __init__(self, name, pos, groups, obstacles, damage_func):
         super().__init__(name, pos, groups, obstacles, damage_func)

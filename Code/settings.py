@@ -29,6 +29,7 @@ BAR_COLOR_SELECTED = "#111111"
 UPGRADE_UI_FONT = "graphics/fonts/prstartk.ttf"
 UPGRADE_BG_COLOR_SELECTED = "#EEEEEE"
 
+
 class Settings:
     def __init__(self):
         self.miniboss_kill_count = 0
@@ -36,6 +37,7 @@ class Settings:
         self.end_game = False
         self.boss_spawn_message = False
         self.player_dead = False
+
 
 global_settings = Settings()
 
@@ -47,10 +49,7 @@ weapon_data = {
         "damage": 15,
         "graphic": "graphics/weapons/sword/full.png",
     },
-    "axe": {
-        "cooldown": 200, 
-        "damage": 20, 
-        "graphic": "graphics/weapons/axe/full.png"},
+    "axe": {"cooldown": 200, "damage": 20, "graphic": "graphics/weapons/axe/full.png"},
 }
 
 magic_data = {

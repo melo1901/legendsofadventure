@@ -153,7 +153,16 @@ class Player(Entity):
             else:
                 self.direction.x = 0
 
-        if keys[pygame.K_SPACE] and (current_time - self.attack_time >= self.attack_cooldown + weapon_data[self.weapon]["cooldown"] + self.cooldown) and not self.attacking:
+        if (
+            keys[pygame.K_SPACE]
+            and (
+                current_time - self.attack_time
+                >= self.attack_cooldown
+                + weapon_data[self.weapon]["cooldown"]
+                + self.cooldown
+            )
+            and not self.attacking
+        ):
             self.attacking = True
             self.attack_time = pygame.time.get_ticks()
             self.create_attack()

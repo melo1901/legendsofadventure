@@ -77,7 +77,7 @@ class UI:
             transition_color = (255, 255, 0)
             player.health -= 2
             player.health = max(player.health, player.target_health)
-            ratio = player.target_health / player.max_health  
+            ratio = player.target_health / player.max_health
 
         # Convert stat to pixel
         current_width = bg_rect.width * ratio
