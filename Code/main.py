@@ -3,6 +3,10 @@ import sys
 from settings import *
 from level import Level
 import pygame_gui
+import time
+
+
+
 
 class HelpScreen:
     def __init__(self):
@@ -151,11 +155,22 @@ class Game:
         self.clock = pygame.time.Clock()
 
         self.level = Level()
-        self.pause_menu = Menu(["Resume", "Options", "Help", "Exit"], "pause")
-        self.title_menu = Menu(["Start", "Options", "Help", "Quit"], "title")
+        self.pause_menu = Menu(["Resume", "Help", "Exit"], "pause")
+        self.title_menu = Menu(["Start", "Help", "Quit"], "title")
         self.state = "title"
         self.options_screen = OptionsScreen(pygame_gui.UIManager((WIDTH, HEIGHT)), self.clock)
         self.help_screen = HelpScreen()
+        self.start_time = None
+        self.end_time = None
+        self.font = pygame.font.Font(UPGRADE_UI_FONT, UI_FONT_SIZE)
+        self.boss_spawn_message_time = None
+
+    def draw_text_with_outline(self, text, font, color, outline_color, x, y):
+        outline = font.render(text, True, outline_color)
+        for dx, dy in ((-1, -1), (-1, 1), (1, -1), (1, 1)):
+            self.screen.blit(outline, (x + dx, y + dy))
+        surface = font.render(text, True, color)
+        self.screen.blit(surface, (x, y))
 
     def draw_title(self):
         # Rysowanie tła
@@ -190,15 +205,18 @@ class Game:
                             self.state = "menu"
                         elif self.state == "menu" or self.state == "options" or self.state == "help":
                             self.state = self.previous_state
-                            if self.state == "title":
-                                self.level = Level()
                     if self.state == "title":
                         result = self.title_menu.handle_input(event)
                         if result == "Start":
                             self.state = "running"
-                        elif result == "Options":
-                            self.previous_state = "title"
-                            self.state = "options"
+                            global_settings.miniboss_kill_count = 0
+                            global_settings.boss_alive = False
+                            global_settings.end_game = False
+                            global_settings.boss_spawn_message = False
+                            self.boss_spawn_message_time = None
+                            global_settings.player_dead == False
+                            self.start_time = time.time()
+                            self.level = Level()
                         elif result == "Help":
                             self.previous_state = "title"
                             self.state = "help"
@@ -209,18 +227,12 @@ class Game:
                         result = self.pause_menu.handle_input(event)
                         if result == "Resume":
                             self.state = "running"
-                        elif result == "Options":
-                            self.previous_state = "menu"
-                            self.state = "options"
                         elif result == "Help":
                             self.previous_state = "menu"
                             self.state = "help"
                         elif result == "Exit":
                             self.state = "title"
                             self.level = Level()
-                    elif self.state == "options":
-                        if result == "Escape":
-                            self.state = self.previous_state
                     elif self.state == "help":
                         if result == "Escape":
                             self.state = self.previous_state
@@ -234,13 +246,69 @@ class Game:
             elif self.state == "running":
                 self.screen.fill(WATER_COLOR)
                 self.level.run()
+                if global_settings.end_game == True:
+                    self.state = "end_game"
+                    if self.end_time is None:
+                        self.end_time = time.time()
+                    elapsed_time = round(self.end_time - self.start_time, 4)
+
+                    time_text = f"Time of run: {elapsed_time} seconds"
+                    instruction_text = "Press Enter to continue"
+                    text_width, text_height = self.font.size(time_text)
+
+                    x = (WIDTH - text_width) / 2
+                    y = (HEIGHT - text_height) / 2
+
+                    self.draw_text_with_outline(time_text, self.font, (255, 255, 255), (0, 0, 0), x, y - 25)
+                    self.draw_text_with_outline(instruction_text, self.font, (255, 255, 255), (0, 0, 0), x, y + 25)
+
+                    pygame.display.update()
+                elif global_settings.player_dead == True:
+                    self.state = "you_died"
+                    font = pygame.font.Font(UPGRADE_UI_FONT, 50)
+                    death_text = font.render(f"YOU DIED", True, (255, 0, 0))
+                    continue_text = self. font.render(f"Press Enter to continue", True, (255, 255, 255))
+                    text_width, text_height = death_text.get_size()
+
+                    x = (WIDTH - text_width) / 2
+                    y = (HEIGHT - text_height) / 3
+                    
+
+                    self.screen.blit(death_text, (x, y))
+                    self.screen.blit(continue_text, (x, y + 100))
+
+                    pygame.display.update()
+
             elif self.state == "menu":
                 self.draw_options()
-            elif self.state == "options":
-                self.options_screen.draw(self.screen)
             elif self.state == "help":
                 self.draw_help()
+            elif self.state == "end_game":
+                keys = pygame.key.get_pressed()
+                if keys[pygame.K_RETURN]:
+                    self.state = "title"
+                    global_settings.end_game = False
+                    self.end_time = None
+            elif self.state == "you_died":
+                keys = pygame.key.get_pressed()
+                if keys[pygame.K_RETURN]:
+                    self.state = "title"
+                    global_settings.end_game = False
+                    global_settings.player_dead = False
+            
+            if global_settings.miniboss_kill_count == 2 and global_settings.boss_spawn_message == False:
+                if self.boss_spawn_message_time == None:
+                    self.boss_spawn_message_time = time.time()
+                if time.time() - self.boss_spawn_message_time <= 3:
+                    boss_spawn_text = self.font.render("Boss is coming!", True, (255, 0, 0))
+                    text_width, text_height = boss_spawn_text.get_size()
 
+                    x = (WIDTH - text_width) / 2
+                    y = (HEIGHT - text_height) / 3
+
+                    self.screen.blit(boss_spawn_text, (x, y))
+
+            print(self.state)
             pygame.display.update()
             self.clock.tick(FPS)
 

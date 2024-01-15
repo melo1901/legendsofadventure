@@ -300,7 +300,12 @@ class Player(Entity):
         else:
             self.mana = self.stats["mana"]
 
+    def check_death(self):
+        if self.health <= 0:
+            global_settings.player_dead = True
+
     def update(self):
+        self.check_death()
         self.input()
         self.cooldowns()
         self.get_status()

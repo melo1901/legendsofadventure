@@ -29,6 +29,16 @@ BAR_COLOR_SELECTED = "#111111"
 UPGRADE_UI_FONT = "graphics/fonts/prstartk.ttf"
 UPGRADE_BG_COLOR_SELECTED = "#EEEEEE"
 
+class Settings:
+    def __init__(self):
+        self.miniboss_kill_count = 0
+        self.boss_alive = False
+        self.end_game = False
+        self.boss_spawn_message = False
+        self.player_dead = False
+
+global_settings = Settings()
+
 WORLD_MAP = [["p"]]
 
 weapon_data = {
@@ -110,15 +120,26 @@ monster_data = {
         "notice_radius": 250,
     },
     "miniboss": {
-    "health": 400,
-    "exp": 300,
-    "gold": 10,
-    "damage": 25,
-    "attack_type": "flame",
-    "speed": 2.5,
-    "resistance": 0.5,
-    "attack_radius": 100,
-    "notice_radius": 400,
+        "health": 10,
+        "exp": 300,
+        "gold": 10,
+        "damage": 25,
+        "attack_type": "flame",
+        "speed": 2.5,
+        "resistance": 0.5,
+        "attack_radius": 100,
+        "notice_radius": 400,
+    },
+    "boss": {
+        "health": 10,
+        "exp": 300,
+        "gold": 10,
+        "damage": 25,
+        "attack_type": "flame",
+        "speed": 2.5,
+        "resistance": 0.5,
+        "attack_radius": 100,
+        "notice_radius": 1000,
     },
 }
 

@@ -10,6 +10,7 @@ from particles import AnimationPlayer
 from magic import MagicPlayer
 from enemy import Enemy
 from miniboss import MiniBoss
+from boss import Boss
 from upgrade import Upgrade, Shop
 from convert import generate_mobs_position
 
@@ -115,7 +116,8 @@ class Level:
                                     )
                     if col == "p":
                         self.player = Player(
-                            (1374, 4187),
+                            #(1374, 4187),
+                            (1700, 500),
                             [self.visible_sprites],
                             self.obstacle_sprites,
                             self.create_attack,
@@ -123,7 +125,8 @@ class Level:
                             self.create_magic,
                         )
         self.player = Player(
-            (1374, 4187),
+            #(1374, 4187),
+            (1800,700),
             [self.visible_sprites],
             self.obstacle_sprites,
             self.create_attack,
@@ -186,16 +189,24 @@ class Level:
         self.player_hit_sound.set_volume(settings["sound_volume"])
         if self.game_paused:
             self.upgrade.display()
-            # display upgrade menu
 
         elif self.game_shop_paused:
             self.shop.display()
 
         else:
-            # run the game
             self.visible_sprites.update()
             self.visible_sprites.enemy_update(self.player)
             self.player_attack_logic()
+        
+        if global_settings.miniboss_kill_count == 2 and global_settings.boss_alive == False:
+            Boss(
+                "boss",
+                (1800, 500),
+                [self.visible_sprites, self.attackable_sprites],
+                self.obstacle_sprites,
+                self.damage_player,
+            )
+            global_settings.boss_alive = True
 
 
 class YSortCameraGroup(pygame.sprite.Group):

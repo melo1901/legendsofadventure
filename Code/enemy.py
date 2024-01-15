@@ -160,7 +160,6 @@ class Enemy(Entity):
 
 
     def update(self):
-        self.hit_reaction()
         self.animate()
         self.cooldowns()
         self.mob_hit_sound.set_volume(settings["sound_volume"])
@@ -169,4 +168,5 @@ class Enemy(Entity):
         self.get_status(player)
         self.actions(player)
         self.check_death(player)
+        self.hit_reaction()
         self.move(player)
