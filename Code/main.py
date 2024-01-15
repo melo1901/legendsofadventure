@@ -53,13 +53,15 @@ class missionScreen:
         self.font = pygame.font.Font("graphics/fonts/prstartk.ttf", 16)
         self.lines = [
             "What is your mission",
-            "in League of Adventure?",
+            "in Legends of Adventure?",
             "",
             "KILL THE FINAL BOSS AND FINISH THE GAME!",
             "",
             "Earn Experience and Money by killing enemies,",
             "Upgrade your abilities and Strength,",
             "this will help you to defeat the Devil!",
+            "",
+            "Maybe you will become the Legend of Adventure?",
             "",
             "Good Luck!"
         ]
