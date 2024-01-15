@@ -1,3 +1,9 @@
+''' Główny plik wykonywalny gry "Legends of Adventure" 
+    Celem gry jest pokonanie głównego przeciwnika, znajdującego się w lewym, górnym rogu mapy.
+    Aby mieć możliowść starcia z głównym bossem trzeba najpierwiej pokonać jego popleczników.
+    Poplecznicy znajdują się w pozostałych rejonach mapy i znacząco różnią się od podstawowych przeciwników
+    Walcz, nabieraj doświadczenia i rozwijaj swoje umiejętności, aby zostać prawdziwą Legendą Przygody!
+'''
 import pygame
 import sys
 from settings import *
