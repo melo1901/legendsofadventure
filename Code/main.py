@@ -14,16 +14,16 @@ import time
 
 class HelpScreen:
     def __init__(self):
-        self.font = pygame.font.Font(None, 36)
+        self.font = pygame.font.Font("graphics/fonts/prstartk.ttf", 16)
         self.lines = [
-            "WASD - Poruszanie się",
-            "Spacja - Uderzenie",
-            "Lewy CTRL - Użycie Magii",
-            "E - Zmiana zaklęcia",
-            "Q - Zmiana broni",
-            "ESC - Wyjście",
-            "U - Sklep",
-            "M - Ulepszanie Zaklęć" 
+            "WASD - Move",
+            "Spacebar - Hit",
+            "Left CTRL - Use Magic",
+            "E - Change Spell",
+            "Q - Change Weapon",
+            "ESC - Exit / Menu",
+            "U - Shop",
+            "M - Enhance Skills" 
         ]
         self.image = pygame.image.load("graphics/ui_elem/Instrukcja.png").convert_alpha()
 
@@ -47,43 +47,23 @@ class HelpScreen:
             y += 30
 
 
-# NOWE OPTIONS
-class OptionsScreen:
-    def __init__(self, manager, clock):
-        self.font = pygame.font.Font(None, 36)
+# NOWE mission
+class missionScreen:
+    def __init__(self):
+        self.font = pygame.font.Font("graphics/fonts/prstartk.ttf", 16)
         self.lines = [
-            "Witaj w",
-            "Legends of Adventure!",
+            "What is your mission",
+            "in League of Adventure?",
             "",
-            "Instrukcja gry:",
+            "KILL THE FINAL BOSS AND FINISH THE GAME!",
             "",
-            "   - W : Idź w górę",
-            "   - A : Idź w lewo",
-            "   - S  : Idź w dół",
-            "   - D : Idź w prawo",
-            "   - Esc: Pauza/Menu",
-            "   - M: Otwórz sklep",
-            "   - U: Ulepsz magię",
-            "   - Q: Quit game",
+            "Earn Experience and Money by killing enemies,",
+            "Upgrade your abilities and Strength,",
+            "this will help you to defeat the Devil!",
             "",
-            "Miłej zabawy!",
+            "Good Luck!"
         ]
-
-        # Inicjalizacja managera GUI
-        self.manager = manager
-
-        # Przekazanie zegara
-        self.clock = clock
-
-        # Tworzenie suwaka do regulacji głośności muzyki
-        self.music_volume_slider = (
-            pygame_gui.elements.ui_horizontal_slider.UIHorizontalSlider(
-                pygame.Rect((WIDTH // 4, HEIGHT // 2), (300, 20)),
-                start_value=pygame.mixer.music.get_volume(),
-                value_range=(0, 1),
-                manager=self.manager,
-            )
-        )
+        self.image = pygame.image.load("graphics/ui_elem/cel.png").convert_alpha()
 
     def draw(self, screen):
         # Ładowanie obrazu tła z przezroczystością (PNG z kanałem alfa)
@@ -92,22 +72,23 @@ class OptionsScreen:
         ).convert_alpha()
         screen.blit(background_image, (0, 0))
 
-        y = HEIGHT // 4
+        # Rysowanie obrazka nad tekstem
+        image_rect = self.image.get_rect(center=(WIDTH // 2, HEIGHT // 4))
+        screen.blit(self.image, image_rect)
+
+        # Rysowanie tekstu
+        y = HEIGHT // 2.5
         for line in self.lines:
             text = self.font.render(line, True, (255, 255, 255))
             text_rect = text.get_rect(center=(WIDTH // 2, y))
             screen.blit(text, text_rect)
             y += 30
 
-        # Aktualizacja i rysowanie elementów GUI
-        self.manager.update(self.clock.tick(FPS) / 1000.0)
-        self.manager.draw_ui(screen)
-
-
+        
 class Menu:
-    def __init__(self, options, type):
-        self.font = pygame.font.Font(None, 50)
-        self.options = options
+    def __init__(self, mission, type):
+        self.font = pygame.font.Font("graphics/fonts/prstartk.ttf", 22)
+        self.mission = mission
         self.selected_option = 0
         self.type = type
         self.background_image = pygame.image.load(
@@ -125,8 +106,8 @@ class Menu:
         logo_rect = self.logo_image.get_rect(center=(WIDTH // 2, HEIGHT // 2 - 100))
         screen.blit(self.logo_image, logo_rect)
 
-        for i, option in enumerate(self.options):
-            color = (160, 160, 160) if i == self.selected_option else (100, 100, 100)
+        for i, option in enumerate(self.mission):
+            color = (240, 163, 53) if i == self.selected_option else (81, 53, 32)
             text = self.font.render(option, 1, (255, 255, 255))
 
             if self.type == "title":
@@ -134,7 +115,7 @@ class Menu:
                 pygame.draw.rect(screen, color, text_rect.inflate(20, 10))
                 screen.blit(text, text_rect)
             elif self.type == "pause":
-                total_height = len(self.options) * 60
+                total_height = len(self.mission) * 60
                 start_y = HEIGHT // 2 - total_height // 2
                 text_rect = text.get_rect(center=(WIDTH // 2, HEIGHT // 2 + i * 60))
                 pygame.draw.rect(screen, color, text_rect.inflate(20, 10))
@@ -143,18 +124,18 @@ class Menu:
     def handle_input(self, event):
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_UP:
-                self.selected_option = (self.selected_option - 1) % len(self.options)
+                self.selected_option = (self.selected_option - 1) % len(self.mission)
             elif event.key == pygame.K_DOWN:
-                self.selected_option = (self.selected_option + 1) % len(self.options)
+                self.selected_option = (self.selected_option + 1) % len(self.mission)
             elif event.key == pygame.K_RETURN:
-                if self.options[self.selected_option] == "Options":
-                    print("Options")
-                    return "Options"
-                elif self.options[self.selected_option] == "Help":
+                if self.mission[self.selected_option] == "Mission":
+                    print("Mission")
+                    return "Mission"
+                elif self.mission[self.selected_option] == "Help":
                     print("Help")
                     return "Help"
                 else:
-                    return self.options[self.selected_option]
+                    return self.mission[self.selected_option]
             elif event.key == pygame.K_ESCAPE:
                 return "Escape"
 
@@ -171,16 +152,14 @@ class Game:
         self.clock = pygame.time.Clock()
 
         self.level = Level()
-        self.pause_menu = Menu(["Resume", "Help", "Exit"], "pause")
-        self.title_menu = Menu(["Start", "Help", "Quit"], "title")
+        self.pause_menu = Menu(["Resume", "Mission", "Help", "Exit"], "pause")
+        self.title_menu = Menu(["Start", "Mission", "Help", "Quit"], "title")
         self.state = "title"
-        self.options_screen = OptionsScreen(
-            pygame_gui.UIManager((WIDTH, HEIGHT)), self.clock
-        )
+        self.mission_screen = missionScreen()
         self.help_screen = HelpScreen()
         self.start_time = None
         self.end_time = None
-        self.font = pygame.font.Font(UPGRADE_UI_FONT, UI_FONT_SIZE)
+        self.font = pygame.font.Font(UPGRADE_UI_FONT, 22)
         self.boss_spawn_message_time = None
 
     def draw_text_with_outline(self, text, font, color, outline_color, x, y):
@@ -196,14 +175,19 @@ class Game:
 
         self.title_menu.draw(self.screen)
 
-    def draw_options(self):
+    def draw_mission(self):
+        # Rysowanie tła
+        self.screen.blit(self.pause_menu.background_image, (0, 0))
+
+
+        self.mission_screen.draw(self.screen)
+        #self.pause_menu.draw(self.screen)
+    
+    def draw_menu(self):
         # Rysowanie tła
         self.screen.blit(self.pause_menu.background_image, (0, 0))
 
         self.pause_menu.draw(self.screen)
-
-        # Rysowanie ekranu opcji
-        # self.options_screen.draw(self.screen)
 
     def draw_help(self):
         # Rysowanie tła
@@ -223,7 +207,7 @@ class Game:
                             self.state = "menu"
                         elif (
                             self.state == "menu"
-                            or self.state == "options"
+                            or self.state == "mission"
                             or self.state == "help"
                         ):
                             self.state = self.previous_state
@@ -242,6 +226,9 @@ class Game:
                         elif result == "Help":
                             self.previous_state = "title"
                             self.state = "help"
+                        elif result == "Mission":
+                            self.previous_state = "title"
+                            self.state = "mission"
                         elif result == "Quit":
                             pygame.quit()
                             sys.exit()
@@ -252,10 +239,16 @@ class Game:
                         elif result == "Help":
                             self.previous_state = "menu"
                             self.state = "help"
+                        elif result == "Mission":
+                            self.previous_state = "menu"
+                            self.state = "mission"
                         elif result == "Exit":
                             self.state = "title"
                             self.level = Level()
                     elif self.state == "help":
+                        if result == "Escape":
+                            self.state = self.previous_state
+                    elif self.state == "mission":
                         if result == "Escape":
                             self.state = self.previous_state
                     if event.key == pygame.K_m and self.state == "running":
@@ -312,9 +305,11 @@ class Game:
                     pygame.display.update()
 
             elif self.state == "menu":
-                self.draw_options()
+                self.draw_menu()
             elif self.state == "help":
                 self.draw_help()
+            elif self.state == "mission":
+                self.draw_mission()
             elif self.state == "end_game":
                 keys = pygame.key.get_pressed()
                 if keys[pygame.K_RETURN]:
