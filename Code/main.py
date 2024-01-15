@@ -340,7 +340,6 @@ class Game:
 
                     self.screen.blit(boss_spawn_text, (x, y))
 
-            print(self.state)
             pygame.display.update()
             self.clock.tick(FPS)
 
