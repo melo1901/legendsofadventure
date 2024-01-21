@@ -20,7 +20,7 @@ def modify_csv_if_not_mobs(input_path, output_path):
 def replace_values(value):
     replacement_rate = 0.02
     new_values = [68, 38, 41, 51]
-    if (value != -1 or value != 99) and random.random() <= replacement_rate:
+    if value == 61 and random.random() <= replacement_rate:
         return random.choice(new_values)
     else:
         return value
