@@ -227,7 +227,7 @@ class YSortCameraGroup(pygame.sprite.Group):
         self.zoom_scale = 4
 
         # podłoże
-        self.floor_surf = pygame.image.load("graphics/tilemap/map.png").convert()
+        self.floor_surf = pygame.image.load("graphics/tilemap/map_new.png").convert()
 
         self.floor_rect = self.floor_surf.get_rect(topleft=(0, 0))
         self.scaled_surf = pygame.transform.scale(
