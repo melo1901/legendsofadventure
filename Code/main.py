@@ -149,6 +149,7 @@ class Game:
         pygame.mixer.music.load("Resources/background.wav")
         pygame.mixer.music.set_volume(0.1)
         pygame.mixer.music.play(-1)
+        pygame.mouse.set_visible(False)
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
         pygame.display.set_caption("Legends of Adventure")
         self.clock = pygame.time.Clock()
@@ -199,6 +200,7 @@ class Game:
 
     def run(self):
         while True:
+            pygame.mouse.set_pos((WIDTH // 2, HEIGHT // 2))
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
@@ -257,6 +259,10 @@ class Game:
                         self.level.toggle_menu()
                     if event.key == pygame.K_u and self.state == "running":
                         self.level.toggle_shop()
+            if pygame.mouse.get_focused():
+                pygame.mixer.music.unpause()
+            else:
+                pygame.mixer.music.pause()
 
             if self.state == "title":
                 self.draw_title()
