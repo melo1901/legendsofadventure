@@ -13,7 +13,7 @@ def replace_values_if_not_mobs(value):
 
 def modify_csv_if_not_mobs(input_path, output_path):
     df = pd.read_csv(input_path)
-    df = df.applymap(replace_values_if_not_mobs)
+    df = df.map(replace_values_if_not_mobs)
     df.to_csv(output_path, index=False)
 
 
@@ -28,7 +28,7 @@ def replace_values(value):
 
 def modify_csv(input_path, output_path):
     df = pd.read_csv(input_path)
-    df = df.applymap(replace_values)
+    df = df.map(replace_values)
     df.to_csv(output_path, index=False)
 
 

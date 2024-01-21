@@ -200,6 +200,10 @@ class Game:
 
     def run(self):
         while True:
+            if pygame.mouse.get_focused():
+                pygame.mixer.music.unpause()
+            else:
+                pygame.mixer.music.pause()
             pygame.mouse.set_pos((WIDTH // 2, HEIGHT // 2))
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -259,10 +263,6 @@ class Game:
                         self.level.toggle_menu()
                     if event.key == pygame.K_u and self.state == "running":
                         self.level.toggle_shop()
-            if pygame.mouse.get_focused():
-                pygame.mixer.music.unpause()
-            else:
-                pygame.mixer.music.pause()
 
             if self.state == "title":
                 self.draw_title()
